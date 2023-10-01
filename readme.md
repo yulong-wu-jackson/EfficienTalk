@@ -92,7 +92,7 @@ https://api.fanyi.baidu.com/doc/21
 
 trying to translate “我在做软件设计课的作业” in Chinese into English “I am doing homework for software design class”, and it works
 
-![](C:\Users\25719\IdeaProjects\CSC207GroupProject\207_930.png)
+![](207_930.png)
 
 ## Example of Output
 ![](C:\Users\25719\IdeaProjects\CSC207GroupProject\207_930_2.png)
