@@ -1,8 +1,8 @@
-package main;
+package app;
 
-import main.help.TransApi;
+import app.help.TransApi;
 
-public class example {
+public class translate_example {
     private static final String APP_ID = "20230927001831049";
     private static final String SECURITY_KEY = "TpImnqfP5aSnRmCnsAL5";
 

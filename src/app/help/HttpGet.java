@@ -1,4 +1,4 @@
-package main.help;
+package app.help;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
