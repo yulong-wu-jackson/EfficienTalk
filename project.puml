@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+Group ..> User
+Message ..> User
+
+class User{
+Integer ID
+String password
+String status
+String name
+String email
+String Accessibility
+
+
+get_name() -> String
+
+
+}
+
+class Message{
+String content
+String timestamp
+User sender
+User receiver
+Boolean is_read
+
+get_message() -> String
+}
+
+class Group{
+String group_name
+ArrayList<User> members
+String create_time
+
+get_users() -> ArrayList<User>
+}
+
+
+
+@enduml

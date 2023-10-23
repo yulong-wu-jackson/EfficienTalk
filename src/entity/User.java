@@ -1,0 +1,13 @@
+package entity;
+
+import java.time.LocalDateTime;
+
+public interface User {
+    String getName();
+
+    String getPassword();
+    String getEmail();
+    String getStatus();
+
+
+}
