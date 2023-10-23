@@ -32,9 +32,6 @@ class CommonUser implements User {
     public String getEmail() {
         return email;
     }
-    public String getStatus(){return status;}
-
-
 
 }
 
