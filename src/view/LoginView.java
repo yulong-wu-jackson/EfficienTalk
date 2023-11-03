@@ -52,7 +52,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         buttons.add(logIn);
         cancel = new JButton(loginViewModel.CANCEL_BUTTON_LABEL);
         buttons.add(cancel);
-        // TODO: add SwitchToSignUp button
+        // TODO: add SwitchToSignUp button (DONE)
         switchToSignUp = new JButton(loginViewModel.SWITCH_SIGNUP_BUTTON_LABEL);
         buttons.add(switchToSignUp);
         // TODO: add ClearGroup button
