@@ -5,6 +5,7 @@ public class LoginState {
     private String usernameError = null;
     private String password = "";
     private String passwordError = null;
+    // TODO: private String groupname
 
     public LoginState(LoginState copy) {
         username = copy.username;

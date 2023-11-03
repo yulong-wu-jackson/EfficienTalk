@@ -3,6 +3,7 @@ package view;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.switchtosignup.SwitchToSignUpController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,13 +27,16 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
     final JButton logIn;
     final JButton cancel;
+    final JButton switchToSignUp;
     private final LoginController loginController;
+    private final SwitchToSignUpController switchToSignUpController;
 
-    public LoginView(LoginViewModel loginViewModel, LoginController controller) {
+    public LoginView(LoginViewModel loginViewModel, LoginController controller, SwitchToSignUpController switchToSignUpController) {
 
         this.loginController = controller;
         this.loginViewModel = loginViewModel;
         this.loginViewModel.addPropertyChangeListener(this);
+        this.switchToSignUpController = switchToSignUpController;
 
         JLabel title = new JLabel("Login Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -41,12 +45,20 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 new JLabel("Username"), usernameInputField);
         LabelTextPanel passwordInfo = new LabelTextPanel(
                 new JLabel("Password"), passwordInputField);
+        // TODO: add LabelTextPanel GroupInfo
 
         JPanel buttons = new JPanel();
         logIn = new JButton(loginViewModel.LOGIN_BUTTON_LABEL);
         buttons.add(logIn);
         cancel = new JButton(loginViewModel.CANCEL_BUTTON_LABEL);
         buttons.add(cancel);
+        // TODO: add SwitchToSignUp button
+        switchToSignUp = new JButton(loginViewModel.SWITCH_SIGNUP_BUTTON_LABEL);
+        buttons.add(switchToSignUp);
+        // TODO: add ClearGroup button
+
+        // Remember to delete ClearGroup button in client version
+
 
         logIn.addActionListener(                // This creates an anonymous subclass of ActionListener and instantiates it.
                 new ActionListener() {
@@ -64,6 +76,16 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         );
 
         cancel.addActionListener(this);
+
+        switchToSignUp.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(switchToSignUp)) {
+                            switchToSignUpController.execute();
+                        }
+                    }
+                }
+        );
 
         usernameInputField.addKeyListener(new KeyListener() {
             @Override
