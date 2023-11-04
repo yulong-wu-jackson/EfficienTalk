@@ -6,12 +6,14 @@ public class LoginState {
     private String password = "";
     private String passwordError = null;
     // TODO: private String groupname
+    private String groupname = "";
 
     public LoginState(LoginState copy) {
         username = copy.username;
         usernameError = copy.usernameError;
         password = copy.password;
         passwordError = copy.passwordError;
+        groupname = copy.groupname;
     }
 
     // Because of the previous copy constructor, the default constructor must be explicit.
@@ -32,6 +34,9 @@ public class LoginState {
     public String getPasswordError() {
         return passwordError;
     }
+    public String getGroupname() {
+        return groupname;
+    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -47,5 +52,8 @@ public class LoginState {
 
     public void setPasswordError(String passwordError) {
         this.passwordError = passwordError;
+    }
+    public void setGroupname(String groupname) {
+        this.groupname = groupname;
     }
 }

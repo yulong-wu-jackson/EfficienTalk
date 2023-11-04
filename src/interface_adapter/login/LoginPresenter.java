@@ -26,6 +26,8 @@ public class LoginPresenter implements LoginOutputBoundary {
 
         LoggedInState loggedInState = loggedInViewModel.getState();
         loggedInState.setUsername(response.getUsername());
+        // TODO: add feature to loggedInState (didn't implemented yet)
+        loggedInState.setGroupname(response.getGroupname());
         this.loggedInViewModel.setState(loggedInState);
         this.loggedInViewModel.firePropertyChanged();
 

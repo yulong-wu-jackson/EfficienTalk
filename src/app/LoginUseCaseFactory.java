@@ -1,6 +1,9 @@
 package app;
 
+import data_access.FileGroupDataAccessObject;
+import entity.CommonGroupFactory;
 import entity.CommonUserFactory;
+import entity.GroupFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
@@ -31,10 +34,13 @@ public class LoginUseCaseFactory {
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
             SignupViewModel signupViewModel,
-            LoginUserDataAccessInterface userDataAccessObject) {
+            LoginUserDataAccessInterface userDataAccessObject,
+            FileGroupDataAccessObject groupDataAccessObject) {
 
         try {
-            LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
+            LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, loggedInViewModel,
+                    userDataAccessObject,
+                    groupDataAccessObject);
             SwitchToSignUpController switchToSignUpController = createSwitchToSignUpUseCase(viewManagerModel, loginViewModel, signupViewModel);
             return new LoginView(loginViewModel, loginController, switchToSignUpController);
         } catch (IOException e) {
@@ -48,15 +54,17 @@ public class LoginUseCaseFactory {
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
-            LoginUserDataAccessInterface userDataAccessObject) throws IOException {
+            LoginUserDataAccessInterface userDataAccessObject,
+            FileGroupDataAccessObject groupDataAccessObject) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
         LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel, loggedInViewModel, loginViewModel);
 
         UserFactory userFactory = new CommonUserFactory();
+        GroupFactory commonGroupFactory = new CommonGroupFactory();
 
         LoginInputBoundary loginInteractor = new LoginInteractor(
-                userDataAccessObject, loginOutputBoundary);
+                userDataAccessObject, loginOutputBoundary, groupDataAccessObject, commonGroupFactory);
 
         return new LoginController(loginInteractor);
     }

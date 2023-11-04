@@ -24,6 +24,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
     final JPasswordField passwordInputField = new JPasswordField(15);
     private final JLabel passwordErrorField = new JLabel();
+    final JTextField groupInputField = new JTextField(15);
 
     final JButton logIn;
     final JButton cancel;
@@ -45,7 +46,9 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 new JLabel("Username"), usernameInputField);
         LabelTextPanel passwordInfo = new LabelTextPanel(
                 new JLabel("Password"), passwordInputField);
-        // TODO: add LabelTextPanel GroupInfo
+        // TODO: add LabelTextPanel GroupInfo(WORKING ON IT)
+        LabelTextPanel groupInfo = new LabelTextPanel(
+                new JLabel("Group"), groupInputField);
 
         JPanel buttons = new JPanel();
         logIn = new JButton(loginViewModel.LOGIN_BUTTON_LABEL);
@@ -68,7 +71,8 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
                             loginController.execute(
                                     currentState.getUsername(),
-                                    currentState.getPassword()
+                                    currentState.getPassword(),
+                                    currentState.getGroupname()
                             );
                         }
                     }
@@ -123,12 +127,30 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                     }
                 });
 
+        groupInputField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                LoginState currentState = loginViewModel.getState();
+                currentState.setGroupname(groupInputField.getText() + e.getKeyChar());
+                loginViewModel.setState(currentState);
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
+
         this.add(title);
         this.add(usernameInfo);
         this.add(usernameErrorField);
         this.add(passwordInfo);
         this.add(passwordErrorField);
         this.add(buttons);
+        this.add(groupInfo);
     }
 
     /**
