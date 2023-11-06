@@ -3,6 +3,8 @@ package data_access;
 import entity.User;
 import entity.UserCreation;
 
+import use_case.clear_users.ClearUserDataAccessInterface;
+import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
 import java.io.*;
@@ -12,7 +14,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class FileUserDataAccessObject implements SignupUserDataAccessInterface{
+public class FileUserDataAccessObject implements SignupUserDataAccessInterface, ClearUserDataAccessInterface, LoginUserDataAccessInterface {
 
     private final File csvFile;
 
@@ -59,6 +61,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface{
         this.save();
     }
 
+    @Override
+    public User get(String username) {
+        return null;
+    }
+
 
     private void save() {
         BufferedWriter writer;
@@ -81,15 +88,15 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface{
         }
     }
 
-//    public ArrayList get_users(){
-//        ArrayList<String> users = new ArrayList<>(this.accounts.keySet());
-//        return users;
-//    }
-//    public void delete() {
-//
-//        this.accounts.clear();
-//        this.save();
-//    }
+    public ArrayList get_users(){
+        ArrayList<String> users = new ArrayList<>(this.accounts.keySet());
+        return users;
+    }
+    public void delete() {
+
+        this.accounts.clear();
+        this.save();
+    }
 
 
     /**
@@ -102,4 +109,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface{
         return accounts.containsKey(identifier);
     }
 
+    @Override
+    public ArrayList<String> clearAllUsers() {
+        return null;
+    }
 }
