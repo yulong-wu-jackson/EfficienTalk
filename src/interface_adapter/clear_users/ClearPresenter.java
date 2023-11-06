@@ -11,24 +11,13 @@ import use_case.clear_users.ClearOutputData;
 import java.util.ArrayList;
 
 public class ClearPresenter implements ClearOutputBoundary {
-
-    private final SignupViewModel signupViewModel;
-    private final LoginViewModel loginViewModel;
+    private final ClearViewModel clearViewModel;
     private ViewManagerModel viewManagerModel;
-
-    public ClearPresenter(ViewManagerModel viewManagerModel,
-                          SignupViewModel signupViewModel,
-                          LoginViewModel loginViewModel) {
+    public ClearPresenter(ViewManagerModel viewManagerModel, ClearViewModel clearViewModel) {
         this.viewManagerModel = viewManagerModel;
-        this.signupViewModel = signupViewModel;
-        this.loginViewModel = loginViewModel;
+        this.clearViewModel = clearViewModel;
     }
-
-    @Override
-    public ArrayList<String> SuccessView(ClearOutputData users) {
-        return users.getUsers();
+    public void prepareSuccessView(ClearOutputData clearOutputData) {
+        System.out.println(clearOutputData.getUsernames());
     }
-
-    @Override
-    public void FailView(String error) {}
 }

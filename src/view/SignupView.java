@@ -20,22 +20,26 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     public final String viewName = "sign up";
 
     private final SignupViewModel signupViewModel;
-    private final JTextField usernameInputField = new JTextField(15);
+    private final JTextField usernameInputField = new JTextField(20);
 
-    private final JTextField emailInputField = new JTextField(15);
-    private final JPasswordField passwordInputField = new JPasswordField(15);
-    private final JPasswordField repeatPasswordInputField = new JPasswordField(15);
+    private final JTextField emailInputField = new JTextField(35);
+    private final JPasswordField passwordInputField = new JPasswordField(20);
+    private final JPasswordField repeatPasswordInputField = new JPasswordField(20);
     private final SignupController signupController;
+    private final ClearController clearController;
 
     private final JButton signUp;
     private final JButton cancel;
     private final JButton clear;
 
-    //    public SignupView(SignupController controller, ClearController clearController, SignupViewModel signupViewModel) {
-    public SignupView(SignupController controller, ClearController clearController, SignupViewModel signupViewModel) {
+    // TODO: switch to log in Button
+
+    public SignupView(SignupController controller, SignupViewModel signupViewModel, ClearController clearController) {
         this.signupController = controller;
         this.signupViewModel = signupViewModel;
+        this.clearController = clearController;
         signupViewModel.addPropertyChangeListener(this);
+        SignupView self = this;
 
         JLabel title = new JLabel(SignupViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -81,13 +85,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(clear)) {
-
-                            ArrayList<String> users = clearController.clearAllUsers();
-                            String result = new String();
-                            for (String user: users) {
-                                result += user + "\n";
-                            }
-                            JOptionPane.showMessageDialog(title ,result);
+                            String usernames = clearController.getUsernames();
+                            clearController.execute();
+                            JOptionPane.showMessageDialog(self, usernames);
 
                         }
                     }

@@ -1,6 +1,9 @@
 package interface_adapter.switchtosignup;
 
+import interface_adapter.ViewManagerModel;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.signup.SignupState;
+import interface_adapter.signup.SignupViewModel;
 import use_case.switchtosignup.SwitchToSignUpOutputBoundary;
 
 public class SwitchToSignUpOutputPresenter implements SwitchToSignUpOutputBoundary {
