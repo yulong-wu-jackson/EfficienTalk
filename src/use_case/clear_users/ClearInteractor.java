@@ -4,27 +4,21 @@ package use_case.clear_users;
 import java.util.ArrayList;
 
 public class ClearInteractor implements ClearInputBoundary {
-    final ClearUserDataAccessInterface clearUserDataAccessInterface;
-
+    final ClearUserDataAccessInterface userDataAccessObject;
     final ClearOutputBoundary userPresenter;
 
     public ClearInteractor(ClearUserDataAccessInterface clearUserDataAccessInterface,
-                           ClearOutputBoundary clearOutputBoundary){
-        this.clearUserDataAccessInterface = clearUserDataAccessInterface;
+                           ClearOutputBoundary clearOutputBoundary) {
+        this.userDataAccessObject = clearUserDataAccessInterface;
         this.userPresenter = clearOutputBoundary;
     }
-
-    @Override
-    public ArrayList<String> clearAllUsers() {
-        ArrayList<String> users = null;
-        try {
-            users = clearUserDataAccessInterface.clearAllUsers();
-            ClearOutputData outputData = new ClearOutputData(users);
-            return userPresenter.SuccessView(outputData);
-        } catch (Exception e) {
-            userPresenter.FailView("Error!");
-            return null;
-        }
-
+    public void execute() {
+        ArrayList<String> usernames = userDataAccessObject.getUsernames();
+        ClearOutputData clearOutputData = new ClearOutputData(usernames);
+        userDataAccessObject.clearUsers();
+        userPresenter.prepareSuccessView(clearOutputData);
+    }
+    public ArrayList<String> getUsernames() {
+        return userDataAccessObject.getUsernames();
     }
 }
