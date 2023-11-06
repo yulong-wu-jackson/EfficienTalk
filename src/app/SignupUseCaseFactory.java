@@ -2,6 +2,7 @@ package app;
 
 import interface_adapter.clear_users.ClearController;
 import interface_adapter.clear_users.ClearPresenter;
+import interface_adapter.clear_users.ClearViewModel;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
@@ -28,12 +29,14 @@ public class SignupUseCaseFactory {
     private SignupUseCaseFactory() {}
 
     public static SignupView create(
-            ViewManagerModel viewManagerModel, LoginViewModel loginViewModel, SignupViewModel signupViewModel, SignupUserDataAccessInterface userDataAccessObject, ClearUserDataAccessInterface clearUserDataAccessObject) {
+            ViewManagerModel viewManagerModel, LoginViewModel loginViewModel, SignupViewModel signupViewModel,
+            SignupUserDataAccessInterface userDataAccessObject, ClearUserDataAccessInterface userDataAccessObject2,
+            ClearViewModel clearViewModel) {
 
         try {
             SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel, userDataAccessObject);
-            ClearController clearController = createUserClearUseCase(viewManagerModel, signupViewModel, loginViewModel, clearUserDataAccessObject);
-            return new SignupView(signupController, clearController,signupViewModel);
+            ClearController clearController = new ClearController(new ClearInteractor(userDataAccessObject2, new ClearPresenter(viewManagerModel, clearViewModel)));
+            return new SignupView(signupController, signupViewModel, clearController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }
@@ -52,15 +55,5 @@ public class SignupUseCaseFactory {
                 userDataAccessObject, signupOutputBoundary, userFactory);
 
         return new SignupController(userSignupInteractor);
-    }
-
-    private static ClearController createUserClearUseCase(ViewManagerModel viewManagerModel, SignupViewModel signupViewModel, LoginViewModel loginViewModel, ClearUserDataAccessInterface userDataAccessObject) throws IOException {
-
-        // Notice how we pass this method's parameters to the Presenter.
-        ClearOutputBoundary clearOutputBoundary = new ClearPresenter(viewManagerModel, signupViewModel, loginViewModel);
-
-        ClearInputBoundary userClearInteractor = new ClearInteractor(userDataAccessObject, clearOutputBoundary);
-
-        return new ClearController(userClearInteractor);
     }
 }

@@ -5,13 +5,12 @@ package use_case.clear_users;
 import java.util.ArrayList;
 
 public class ClearOutputData {
-    private final ArrayList<String> users;
+    private ArrayList<String> usernames;
 
-    public ClearOutputData(ArrayList<String> users) {
-        this.users = users;
+    public ClearOutputData(ArrayList<String> usernames) {
+        this.usernames = usernames;
     }
-
-    public ArrayList<String> getUsers() {
-        return users;
+    public ArrayList<String> getUsernames() {
+        return usernames;
     }
 }

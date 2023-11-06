@@ -65,7 +65,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
     @Override
     public User get(String username) {
-        return null;
+        return accounts.get(username);
     }
 
 
@@ -111,8 +111,15 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         return accounts.containsKey(identifier);
     }
 
-    @Override
-    public ArrayList<String> clearAllUsers() {
-        return null;
+    public void clearUsers() {
+        accounts.clear();
+        this.save();
+    }
+    public ArrayList<String> getUsernames() {
+        ArrayList<String> usernames = new ArrayList<>();
+        for (User user : accounts.values()) {
+            usernames.add(user.getName());
+        }
+        return usernames;
     }
 }
