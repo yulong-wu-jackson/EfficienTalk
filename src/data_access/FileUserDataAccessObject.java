@@ -1,7 +1,7 @@
 package data_access;
 
 import entity.User;
-import entity.UserCreation;
+import entity.UserFactory;
 
 import use_case.clear_users.ClearUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
@@ -14,7 +14,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class FileUserDataAccessObject implements SignupUserDataAccessInterface, ClearUserDataAccessInterface, LoginUserDataAccessInterface {
+public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
+        ClearUserDataAccessInterface,
+        LoginUserDataAccessInterface {
 
     private final File csvFile;
 
@@ -22,10 +24,10 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     private final Map<String, User> accounts = new HashMap<>();
 
-    private UserCreation userCreation;
+    private UserFactory userFactory;
 
-    public FileUserDataAccessObject(String csvPath, UserCreation userCreation) throws IOException {
-        this.userCreation = userCreation;
+    public FileUserDataAccessObject(String csvPath, UserFactory userFactory) throws IOException {
+        this.userFactory = userFactory;
 
         csvFile = new File(csvPath);
         headers.put("username", 0);
@@ -48,7 +50,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     String username = String.valueOf(col[headers.get("username")]);
                     String password = String.valueOf(col[headers.get("password")]);
                     String email = String.valueOf(col[headers.get("email")]);
-                    User user = userCreation.create(username, password, email);
+                    User user = userFactory.create(username, password, email);
                     accounts.put(username, user);
                 }
             }
