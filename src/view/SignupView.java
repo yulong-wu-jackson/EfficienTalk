@@ -1,6 +1,7 @@
 package view;
 
 //import interface_adapter.clear_users.ClearController;
+import interface_adapter.clear_users.ClearController;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
@@ -30,8 +31,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     private final JButton cancel;
     private final JButton clear;
 
-//    public SignupView(SignupController controller, ClearController clearController, SignupViewModel signupViewModel) {
-   public SignupView(SignupController controller, SignupViewModel signupViewModel) {
+    //    public SignupView(SignupController controller, ClearController clearController, SignupViewModel signupViewModel) {
+    public SignupView(SignupController controller, ClearController clearController, SignupViewModel signupViewModel) {
         this.signupController = controller;
         this.signupViewModel = signupViewModel;
         signupViewModel.addPropertyChangeListener(this);
@@ -75,23 +76,23 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                 }
         );
 
-//        clear.addActionListener(
-//                new ActionListener() {
-//                    @Override
-//                    public void actionPerformed(ActionEvent e) {
-//                        if (e.getSource().equals(clear)) {
-//
-//                            ArrayList<String> users = clearController.clearAllUsers();
-//                            String result = new String();
-//                            for (String user: users) {
-//                                result += user + "\n";
-//                            }
-//                            JOptionPane.showMessageDialog(title ,result);
-//
-//                        }
-//                    }
-//                }
-//        );
+        clear.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(clear)) {
+
+                            ArrayList<String> users = clearController.clearAllUsers();
+                            String result = new String();
+                            for (String user: users) {
+                                result += user + "\n";
+                            }
+                            JOptionPane.showMessageDialog(title ,result);
+
+                        }
+                    }
+                }
+        );
 
         cancel.addActionListener(this);
 
@@ -159,6 +160,25 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                     }
                 }
         );
+
+        emailInputField.addKeyListener(
+                new KeyListener() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        SignupState currentState = signupViewModel.getState();
+                        String text = emailInputField.getText() + e.getKeyChar();
+                        currentState.setEmail(text);
+                        signupViewModel.setState(currentState);
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+                    }
+                });
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

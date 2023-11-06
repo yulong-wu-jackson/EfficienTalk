@@ -1,6 +1,6 @@
 package entity;
 
-public class CommonUserCreation implements UserCreation{
+public class CommonUserFactory implements UserFactory {
     /**
      * Requires: password is valid.
      * @param name
