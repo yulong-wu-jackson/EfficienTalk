@@ -2,18 +2,17 @@ package entity;
 
 import java.time.LocalDateTime;
 
-class CommonUser implements User {
+public class CommonUser implements User {
 
     private final String name;
     private final String password;
     private final String email;
 
 
+
     /**
      * Requires: password is valid.
-     * @param name
-     * @param password
-     * @param email
+     *
      */
     CommonUser(String name, String password, String email) {
         this.name = name;
@@ -32,6 +31,8 @@ class CommonUser implements User {
     public String getEmail() {
         return email;
     }
+
+
 
 }
 

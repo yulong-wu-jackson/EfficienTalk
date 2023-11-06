@@ -9,7 +9,7 @@ public class GroupCreation {
      * @param Members
      * @return
      */
-    public Group create(String Group_Name, ArrayList<User> Members) {
-        return new Group(Group_Name, Members);
+    public CommonGroup create(String Group_Name, ArrayList<User> Members) {
+        return new CommonGroup(Group_Name, Members);
     }
 }
