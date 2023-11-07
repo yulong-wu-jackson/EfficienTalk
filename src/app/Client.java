@@ -1,16 +1,57 @@
 package app;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Client {
-    public static void main(String[] args) throws IOException {
+    Socket socket;
+    public Client(){
+        try {
+            socket = new Socket("localhost", 8088);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void start(){
+        try {
+            // send message to server
+            OutputStream outputStream =  socket.getOutputStream();
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "utf-8");
+            BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
+            // 自动行刷新
+            PrintWriter printWriter = new PrintWriter(bufferedWriter, true);
+
+            // receive message from server
+            InputStream inputStream = socket.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+            Scanner scanner = new Scanner(System.in);
+            while(true){
+                String message = scanner.nextLine();
+                // 输出客户端的内容
+                printWriter.println(message);
+
+                // receive message from server
+                String line = bufferedReader.readLine();
+                System.out.println("Server said: " + line);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public static void main(String[] args){
         // ------   TODO: Constructing Socket Programming PART   ------
-        // Create socket object and assign host location and port
-        Socket socket = new Socket("localhost", 8088);
-        System.out.println("Server connected!");
+
+        Client client = new Client();
+        client.start();
+
 
         // ------   TODO: Constructing Socket Programming PART   ------
     }
-
 }
