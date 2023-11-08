@@ -22,16 +22,7 @@ import java.net.Socket;
 
 public class ServerApp {
     public static void main(String[] args) throws IOException {
-        // ------   TODO: Constructing Socket Programming PART   ------
-        ServerSocket serverSocket = new ServerSocket(8088);
-        System.out.println("Waiting Client to connect...");
 
-        // Listen whether a client want to connect to the port, waiting until Client connect
-        Socket socket = serverSocket.accept();
-        System.out.println("One Client connected!");
-
-
-        // ------   TODO: Constructing Socket Programming PART   ------
 
 
         // Build the main program window, the main panel containing the

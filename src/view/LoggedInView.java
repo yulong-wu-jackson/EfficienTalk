@@ -2,6 +2,7 @@ package view;
 
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
+import interface_adapter.login.LoginState;
 import interface_adapter.logout.LogoutController;
 //import interface_adapter.login.LoginState;
 
@@ -9,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -19,6 +22,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final LogoutController logoutController;
 
     JLabel username;
+    final JTextField messageInputField = new JTextField(30);
+    final JButton send;
+    final JButton notify;
 
     final JButton logOut;
 
@@ -36,11 +42,68 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         JLabel usernameInfo = new JLabel("Currently logged in: ");
         username = new JLabel();
 
+        JTextArea textArea = new JTextArea();
+        textArea.setLineWrap(true);
+        textArea.setFont(new Font(null, Font.PLAIN, 18));
+
+        JScrollPane scrollPane = new JScrollPane(
+                textArea,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
+
+        );
+
+        LabelTextPanel clientMessage = new LabelTextPanel(
+                new JLabel("Your Message"), messageInputField);
+
         JPanel buttons = new JPanel();
+        send = new JButton(loggedInViewModel.SEND_BUTTON_LABEL);
+        buttons.add(send);
+        notify = new JButton(loggedInViewModel.NOTIFICATION_BUTTON_LABEL);
+        buttons.add(notify);
         logOut = new JButton(loggedInViewModel.LOGOUT_BUTTON_LABEL);
         buttons.add(logOut);
 
-        logOut.addActionListener(this);
+        messageInputField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                LoggedInState currentState = loggedInViewModel.getState();
+                currentState.setClientMessage(messageInputField.getText() + e.getKeyChar());
+                loggedInViewModel.setState(currentState);
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
+
+        send.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(notify)) {
+                            // TODO: send message to group
+                            logoutController.execute();
+                        }
+                    }
+                }
+        );
+
+        notify.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(notify)) {
+                            // TODO: send notification to group
+                            logoutController.execute();
+                        }
+                    }
+                }
+        );
 
         logOut.addActionListener(
                 new ActionListener() {
@@ -59,6 +122,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.add(title);
         this.add(usernameInfo);
         this.add(username);
+        this.add(scrollPane);
+        this.add(clientMessage);
         this.add(buttons);
     }
 
