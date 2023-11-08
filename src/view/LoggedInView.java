@@ -85,9 +85,15 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        if (e.getSource().equals(notify)) {
+                        if (e.getSource().equals(send)) {
                             // TODO: send message to group
-                            logoutController.execute();
+                            // logoutController.execute();
+
+                            // TODO: after client sent message, clear the message input field
+                            messageInputField.setText("");
+                            LoggedInState currentState = loggedInViewModel.getState();
+                            currentState.setClientMessage(messageInputField.getText());
+                            loggedInViewModel.setState(currentState);
                         }
                     }
                 }
@@ -100,6 +106,12 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                         if (e.getSource().equals(notify)) {
                             // TODO: send notification to group
                             logoutController.execute();
+
+                            // after client sent notification, clear the message input field
+                            messageInputField.setText("");
+                            LoggedInState currentState = loggedInViewModel.getState();
+                            currentState.setClientMessage(messageInputField.getText());
+                            loggedInViewModel.setState(currentState);
                         }
                     }
                 }
