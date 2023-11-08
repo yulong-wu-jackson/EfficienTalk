@@ -3,10 +3,13 @@ package app;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Server {
     ServerSocket serverSocket;
+    List printWriters = new ArrayList(); // store all the printWriters of all the clients
     public Server(){
         try {
             serverSocket = new ServerSocket(8088);
@@ -55,6 +58,12 @@ public class Server {
                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "utf-8");
                 BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
                 PrintWriter printWriter = new PrintWriter(bufferedWriter, true);
+                // store the printWriter of this client
+                printWriters.add(printWriter);
+
+                System.out.println("Client " + host + " connected!");
+                System.out.println("Current online Client number: " + printWriters.size());
+
                 Scanner scanner = new Scanner(System.in);
 
                 while(true){
@@ -62,9 +71,15 @@ public class Server {
                     String line = bufferedReader.readLine();
                     System.out.println("Client " + host + " said: " + line);
 
+                    // send message to all the clients
+                    for (Object printWriter1 : printWriters){
+                        PrintWriter pw = (PrintWriter) printWriter1;
+                        pw.println("Client " + host + " said: " + line);
+                    }
+
                     // send message to client
                     String message = scanner.nextLine();
-                    printWriter.println(message);
+                    printWriter.println("Server said: " + message);
                 }
             }
             catch (IOException e) {

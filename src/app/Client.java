@@ -20,8 +20,7 @@ public class Client {
         Thread thread = new Thread(serverHandler);
         thread.start();
 
-
-        // send message to server
+        // the main thread will handle send message to server
         try{
             OutputStream outputStream =  socket.getOutputStream();
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "utf-8");
@@ -52,28 +51,15 @@ public class Client {
         @Override
         public void run(){
             try {
-                // send message to server
-                OutputStream outputStream =  socket.getOutputStream();
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "utf-8");
-                BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
-                // 自动行刷新
-                PrintWriter printWriter = new PrintWriter(bufferedWriter, true);
-
-
-                Scanner scanner = new Scanner(System.in);
                 // receive message from server
                 InputStream inputStream = socket.getInputStream();
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
                 while(true){
-                    String message = scanner.nextLine();
-                    // client send its message to server
-                    printWriter.println(message);
-
                     // receive message from server
                     String line = bufferedReader.readLine();
-                    System.out.println("Server said: " + line);
+                    System.out.println(line);
                 }
             }
             catch (IOException e) {

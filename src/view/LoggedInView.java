@@ -87,7 +87,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(send)) {
                             // TODO: send message to group
-                            // logoutController.execute();
+                            // sendController.execute();
 
                             // TODO: after client sent message, clear the message input field
                             messageInputField.setText("");
@@ -105,7 +105,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(notify)) {
                             // TODO: send notification to group
-                            logoutController.execute();
+                            // notifyController.execute();
 
                             // after client sent notification, clear the message input field
                             messageInputField.setText("");
