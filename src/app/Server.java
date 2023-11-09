@@ -78,8 +78,8 @@ public class Server {
                     }
 
                     // send message to client
-                    String message = scanner.nextLine();
-                    printWriter.println("Server said: " + message);
+//                    String message = scanner.nextLine();
+//                    printWriter.println("Server said: " + message);
                 }
             }
             catch (IOException e) {

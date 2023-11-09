@@ -2,9 +2,9 @@ package view;
 
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
-import interface_adapter.login.LoginState;
 import interface_adapter.logout.LogoutController;
-//import interface_adapter.login.LoginState;
+import interface_adapter.send_message.SendMessageController;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,26 +14,34 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.net.Socket;
 
 public class LoggedInView extends JPanel implements ActionListener, PropertyChangeListener {
 
     public final String viewName = "logged in";
     private final LoggedInViewModel loggedInViewModel;
     private final LogoutController logoutController;
+    private final SendMessageController sendMessageController;
 
     JLabel username;
+    JLabel address;
+    JLabel port;
     final JTextField messageInputField = new JTextField(30);
     final JButton send;
     final JButton notify;
 
     final JButton logOut;
+    public static JTextArea textArea;
+    static Socket socket = null;
 
     /**
      * A window with a title and a JButton.
      */
-    public LoggedInView(LoggedInViewModel loggedInViewModel, LogoutController logoutController) {
+    public LoggedInView(LoggedInViewModel loggedInViewModel, LogoutController logoutController,
+                        SendMessageController sendMessageController) {
         this.loggedInViewModel = loggedInViewModel;
         this.logoutController = logoutController;
+        this.sendMessageController = sendMessageController;
         this.loggedInViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Logged In Screen");
@@ -41,8 +49,10 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
         JLabel usernameInfo = new JLabel("Currently logged in: ");
         username = new JLabel();
+        address = new JLabel();
+        port = new JLabel();
 
-        JTextArea textArea = new JTextArea();
+        textArea = new JTextArea();
         textArea.setLineWrap(true);
         textArea.setFont(new Font(null, Font.PLAIN, 18));
 
@@ -64,6 +74,10 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         logOut = new JButton(loggedInViewModel.LOGOUT_BUTTON_LABEL);
         buttons.add(logOut);
 
+
+        textArea.append("Welcome to the chat room!\n");
+
+
         messageInputField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -81,17 +95,22 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             }
         });
 
+        send.setEnabled(false);
+
+
         send.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(send)) {
+                            LoggedInState currentState = loggedInViewModel.getState();
                             // TODO: send message to group
-                            // sendController.execute();
+                            sendMessageController.execute(currentState.getUsername() + " : " +
+                                    currentState.getClientMessage(), currentState.getSocket());
 
                             // TODO: after client sent message, clear the message input field
                             messageInputField.setText("");
-                            LoggedInState currentState = loggedInViewModel.getState();
+                            currentState = loggedInViewModel.getState();
                             currentState.setClientMessage(messageInputField.getText());
                             loggedInViewModel.setState(currentState);
                         }
@@ -134,6 +153,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.add(title);
         this.add(usernameInfo);
         this.add(username);
+        this.add(address);
+        this.add(port);
         this.add(scrollPane);
         this.add(clientMessage);
         this.add(buttons);
@@ -150,5 +171,11 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     public void propertyChange(PropertyChangeEvent evt) {
         LoggedInState state = (LoggedInState) evt.getNewValue();
         username.setText(state.getUsername());
+        address.setText(state.getIpAddress());
+        port.setText(state.getPort());
+        if (state.getSocket() != null) {
+            send.setEnabled(true);
+        }
+
     }
 }

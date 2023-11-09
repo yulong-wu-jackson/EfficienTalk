@@ -3,6 +3,9 @@ package use_case.login;
 import data_access.FileGroupDataAccessObject;
 import entity.*;
 
+import java.io.IOException;
+import java.net.Socket;
+
 public class LoginInteractor implements LoginInputBoundary {
     final LoginUserDataAccessInterface userDataAccessObject;
     final FileGroupDataAccessObject groupDataAccessObject;
@@ -24,6 +27,8 @@ public class LoginInteractor implements LoginInputBoundary {
         String username = loginInputData.getUsername();
         String password = loginInputData.getPassword();
         String groupname = loginInputData.getGroupname();
+        String ipAddress = loginInputData.getIpAddress();
+        String port = loginInputData.getPort();
         if (!userDataAccessObject.existsByName(username)) {
             loginPresenter.prepareFailView(username + ": Account does not exist.");
         } else {
@@ -45,8 +50,12 @@ public class LoginInteractor implements LoginInputBoundary {
                 }
 
 
-                LoginOutputData loginOutputData = new LoginOutputData(user.getName(), false, groupname);
+
+                LoginOutputData loginOutputData = new LoginOutputData(user.getName(), false, groupname, ipAddress, port);
                 loginPresenter.prepareSuccessView(loginOutputData);
+
+
+
             }
         }
     }
