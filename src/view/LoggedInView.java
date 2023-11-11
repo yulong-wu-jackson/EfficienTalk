@@ -45,6 +45,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.loggedInViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Logged In Screen");
+        title.setFont(new Font(null, Font.BOLD, 18));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel usernameInfo = new JLabel("Currently logged in: ");
@@ -54,7 +55,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
         textArea = new JTextArea();
         textArea.setLineWrap(true);
-        textArea.setFont(new Font(null, Font.PLAIN, 18));
+        textArea.setFont(new Font(null, Font.PLAIN, 16));
 
         JScrollPane scrollPane = new JScrollPane(
                 textArea,
@@ -62,6 +63,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
 
         );
+        scrollPane.setPreferredSize(new Dimension(500, 300));
 
         LabelTextPanel clientMessage = new LabelTextPanel(
                 new JLabel("Your Message"), messageInputField);
@@ -170,9 +172,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         LoggedInState state = (LoggedInState) evt.getNewValue();
-        username.setText(state.getUsername());
-        address.setText(state.getIpAddress());
-        port.setText(state.getPort());
+        username.setText("User Name: " + state.getUsername());
+        address.setText("IP: " + state.getIpAddress());
+        port.setText("port: " + state.getPort());
         if (state.getSocket() != null) {
             send.setEnabled(true);
         }

@@ -9,17 +9,34 @@ import interface_adapter.login.LoginViewModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.ViewManagerModel;
-import view.LoggedInView;
-import view.LoginView;
-import view.SignupView;
-import view.ViewManager;
+import view.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+
+import java.util.Arrays;
 public class ClientApp {
 
     public static void main(String[] args) throws IOException {
+
+        // try on appearance----------------
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) { // or "FlatLaf" for FlatLaf look // Nimbus
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("current look and fell is not available");
+        }
+        UIManager.put("Button.background", Color.LIGHT_GRAY);
+
+
+        // try on appearance----------------
+
+
 
 
 
@@ -28,6 +45,7 @@ public class ClientApp {
 
         // The main application window.
         JFrame application = new JFrame("Login Example");
+        // TODO: remember to think of a name for our application!!!
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         CardLayout cardLayout = new CardLayout();
@@ -78,7 +96,9 @@ public class ClientApp {
         viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();
 
+        application.setPreferredSize(new Dimension(550, 400));
         application.pack();
+        application.setLocationRelativeTo(null);
         application.setVisible(true);
     }
 }
