@@ -97,7 +97,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             }
         });
 
-        send.setEnabled(false);
+
 
 
         send.addActionListener(
@@ -175,8 +175,11 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         username.setText("User Name: " + state.getUsername());
         address.setText("IP: " + state.getIpAddress());
         port.setText("port: " + state.getPort());
-        if (state.getSocket() != null) {
-            send.setEnabled(true);
+        if (state.getSocket() == null) {
+            send.setEnabled(false);
+            notify.setEnabled(false);
+            textArea.append("Cannot connect to server.\n");
+            textArea.append("Please restart the application.\n");
         }
 
     }

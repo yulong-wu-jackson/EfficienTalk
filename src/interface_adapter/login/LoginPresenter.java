@@ -9,6 +9,7 @@ import use_case.login.LoginOutputData;
 import view.LoggedInView;
 import view.ServerHandler;
 
+import javax.swing.*;
 import java.net.Socket;
 
 public class LoginPresenter implements LoginOutputBoundary {
@@ -48,6 +49,7 @@ public class LoginPresenter implements LoginOutputBoundary {
             thread.start();
 
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Cannot connect to server.");
             System.out.println("Error: " + e);
         }
 
