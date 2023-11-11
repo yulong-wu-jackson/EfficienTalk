@@ -42,6 +42,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         this.switchToSignUpController = switchToSignUpController;
 
         JLabel title = new JLabel("Login Screen");
+        title.setFont(new Font(null, Font.BOLD, 18));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         LabelTextPanel usernameInfo = new LabelTextPanel(
@@ -58,11 +59,14 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
         JPanel buttons = new JPanel();
         logIn = new JButton(loginViewModel.LOGIN_BUTTON_LABEL);
+        logIn.setFont(new Font(null, Font.BOLD, 15));
         buttons.add(logIn);
         cancel = new JButton(loginViewModel.CANCEL_BUTTON_LABEL);
+        cancel.setFont(new Font(null, Font.BOLD, 15));
         buttons.add(cancel);
         // TODO: add SwitchToSignUp button (DONE)
         switchToSignUp = new JButton(loginViewModel.SWITCH_SIGNUP_BUTTON_LABEL);
+        switchToSignUp.setFont(new Font(null, Font.BOLD, 15));
         buttons.add(switchToSignUp);
         // TODO: add ClearGroup button
 
@@ -218,10 +222,11 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         this.add(usernameErrorField);
         this.add(passwordInfo);
         this.add(passwordErrorField);
-        this.add(buttons);
+
         this.add(groupInfo);
         this.add(ipInfo);
         this.add(portInfo);
+        this.add(buttons);
     }
 
     /**

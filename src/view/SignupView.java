@@ -42,6 +42,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         SignupView self = this;
 
         JLabel title = new JLabel(SignupViewModel.TITLE_LABEL);
+        title.setFont(new Font(null, Font.BOLD, 18));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         LabelTextPanel usernameInfo = new LabelTextPanel(
@@ -56,10 +57,13 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
         JPanel buttons = new JPanel();
         signUp = new JButton(SignupViewModel.SIGNUP_BUTTON_LABEL);
+        signUp.setFont(new Font(null, Font.BOLD, 15));
         buttons.add(signUp);
         cancel = new JButton(SignupViewModel.CANCEL_BUTTON_LABEL);
+        cancel.setFont(new Font(null, Font.BOLD, 15));
         buttons.add(cancel);
         clear = new JButton(SignupViewModel.CLEAR_BUTTON_LABEL);
+        clear.setFont(new Font(null, Font.BOLD, 15));
         buttons.add(clear);
 
         signUp.addActionListener(
