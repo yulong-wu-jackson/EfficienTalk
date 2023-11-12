@@ -5,6 +5,7 @@ import interface_adapter.clear_users.ClearController;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.switchtologin.SwitchToLoginController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,17 +28,21 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     private final JPasswordField repeatPasswordInputField = new JPasswordField(20);
     private final SignupController signupController;
     private final ClearController clearController;
+    private final SwitchToLoginController switchToLoginController;
 
     private final JButton signUp;
     private final JButton cancel;
     private final JButton clear;
+    private final JButton swithToLogin;
 
-    // TODO: switch to log in Button
-
-    public SignupView(SignupController controller, SignupViewModel signupViewModel, ClearController clearController) {
+    public SignupView(SignupController controller,
+                      SignupViewModel signupViewModel,
+                      ClearController clearController,
+                      SwitchToLoginController switchToLoginController) {
         this.signupController = controller;
         this.signupViewModel = signupViewModel;
         this.clearController = clearController;
+        this.switchToLoginController = switchToLoginController;
         signupViewModel.addPropertyChangeListener(this);
         SignupView self = this;
 
@@ -61,6 +66,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         buttons.add(cancel);
         clear = new JButton(SignupViewModel.CLEAR_BUTTON_LABEL);
         buttons.add(clear);
+        swithToLogin = new JButton(SignupViewModel.SWITCH_TO_LOGIN_BUTTON_LABEL);
+        buttons.add(swithToLogin);
 
         signUp.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
@@ -179,6 +186,16 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                     public void keyReleased(KeyEvent e) {
                     }
                 });
+
+        swithToLogin.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(swithToLogin)) {
+                            switchToLoginController.execute();
+                        }
+                    }
+                }
+        );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
