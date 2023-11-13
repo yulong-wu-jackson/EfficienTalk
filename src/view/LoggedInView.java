@@ -159,8 +159,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.add(port);
         this.add(scrollPane);
         this.add(clientMessage);
-        this.add(buttons);
-    }
+        this.add(buttons);    }
 
     /**
      * React to a button click that results in evt.
@@ -178,6 +177,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         if (state.getSocket() != null) {
             send.setEnabled(true);
         }
+        state.setGroupMessage(textArea.getText());
 
     }
 }
