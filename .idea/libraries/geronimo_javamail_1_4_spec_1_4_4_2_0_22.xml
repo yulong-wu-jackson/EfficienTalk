@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="geronimo-javamail_1.4_spec-1.4.4-2.0.22">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/geronimo-javamail_1.4_spec-1.4.4-2.0.22.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
