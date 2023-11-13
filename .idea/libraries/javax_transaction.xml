@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="javax.transaction">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/javax.transaction.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
