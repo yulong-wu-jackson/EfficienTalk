@@ -9,7 +9,6 @@ import interface_adapter.login.LoginViewModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.ViewManagerModel;
-import use_case.login.LoginUserDataAccessInterface;
 import view.LoggedInView;
 import view.LoginView;
 import view.SignupView;
@@ -18,9 +17,14 @@ import view.ViewManager;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-public class server {
-    public static void main(String[] args) {
+public class ServerApp {
+    public static void main(String[] args) throws IOException {
+
+
+
         // Build the main program window, the main panel containing the
         // various cards, and the layout, and stitch them together.
 

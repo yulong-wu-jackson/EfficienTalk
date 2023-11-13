@@ -11,9 +11,9 @@ public class LoginController {
     }
 
 
-    public void execute(String username, String password, String groupname) {
+    public void execute(String username, String password, String groupname, String ipAddress, String port) {
         LoginInputData loginInputData = new LoginInputData(
-                username, password, groupname);
+                username, password, groupname, ipAddress, port);
 
         loginUseCaseInteractor.execute(loginInputData);
     }
