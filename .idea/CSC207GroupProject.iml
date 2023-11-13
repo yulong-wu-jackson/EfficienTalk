@@ -7,18 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="javax.mail (1)" level="project" />
     <orderEntry type="library" name="activation-1.1.1" level="project" />
-    <orderEntry type="library" name="activation-1.1.1-sources" level="project" />
-    <orderEntry type="library" name="geronimo-javamail_1.4_spec-1.4.4-2.0.22" level="project" />
-    <orderEntry type="library" name="javax.annotation" level="project" />
-    <orderEntry type="library" name="javax.ejb" level="project" />
-    <orderEntry type="library" name="javax.jms" level="project" />
-    <orderEntry type="library" name="javax.persistence" level="project" />
-    <orderEntry type="library" name="javax.resource" level="project" />
-    <orderEntry type="library" name="javax.servlet" level="project" />
-    <orderEntry type="library" name="javax.servlet.jsp" level="project" />
-    <orderEntry type="library" name="javax.servlet.jsp.jstl" level="project" />
-    <orderEntry type="library" name="javax.transaction" level="project" />
+    <orderEntry type="library" name="javax.mail (1) (2)" level="project" />
   </component>
 </module>
