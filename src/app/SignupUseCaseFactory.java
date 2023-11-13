@@ -7,6 +7,8 @@ import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.switchtologin.SwitchToLoginController;
+import interface_adapter.switchtologin.SwitchToLoginPresenter;
 import use_case.clear_users.ClearInputBoundary;
 import use_case.clear_users.ClearInteractor;
 import use_case.clear_users.ClearOutputBoundary;
@@ -18,6 +20,9 @@ import interface_adapter.*;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import use_case.switchtologin.SwitchToLoginInputBoundary;
+import use_case.switchtologin.SwitchToLoginInteractor;
+import use_case.switchtologin.SwitchToLoginOutputBoundary;
 import view.SignupView;
 
 import javax.swing.*;
@@ -29,14 +34,23 @@ public class SignupUseCaseFactory {
     private SignupUseCaseFactory() {}
 
     public static SignupView create(
-            ViewManagerModel viewManagerModel, LoginViewModel loginViewModel, SignupViewModel signupViewModel,
-            SignupUserDataAccessInterface userDataAccessObject, ClearUserDataAccessInterface userDataAccessObject2,
+            ViewManagerModel viewManagerModel,
+            LoginViewModel loginViewModel,
+            SignupViewModel signupViewModel,
+            SignupUserDataAccessInterface userDataAccessObject,
+            ClearUserDataAccessInterface userDataAccessObject2,
             ClearViewModel clearViewModel) {
 
         try {
-            SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel, userDataAccessObject);
-            ClearController clearController = new ClearController(new ClearInteractor(userDataAccessObject2, new ClearPresenter(viewManagerModel, clearViewModel)));
-            return new SignupView(signupController, signupViewModel, clearController);
+            SignupController signupController = createUserSignupUseCase(viewManagerModel,
+                    signupViewModel,
+                    loginViewModel,
+                    userDataAccessObject);
+            ClearController clearController = new ClearController(new ClearInteractor(userDataAccessObject2,
+                    new ClearPresenter(viewManagerModel, clearViewModel)));
+            SwitchToLoginController switchToLoginController = createSwitchToLoginUseCase(viewManagerModel,
+                    loginViewModel, signupViewModel);
+            return new SignupView(signupController, signupViewModel, clearController, switchToLoginController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }
@@ -55,5 +69,15 @@ public class SignupUseCaseFactory {
                 userDataAccessObject, signupOutputBoundary, userFactory);
 
         return new SignupController(userSignupInteractor);
+    }
+
+    private static SwitchToLoginController createSwitchToLoginUseCase(ViewManagerModel viewManagerModel,
+                                                                      LoginViewModel loginViewModel,
+                                                                      SignupViewModel signupViewModel) {
+        SwitchToLoginOutputBoundary switchToLoginOutputBoundary = new SwitchToLoginPresenter(viewManagerModel,
+                loginViewModel, signupViewModel);
+        SwitchToLoginInputBoundary switchToLoginInputBoundaryInteractor = new SwitchToLoginInteractor(
+                switchToLoginOutputBoundary);
+        return new SwitchToLoginController(switchToLoginInputBoundaryInteractor);
     }
 }
