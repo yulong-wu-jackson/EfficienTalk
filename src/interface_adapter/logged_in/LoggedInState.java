@@ -6,6 +6,7 @@ public class LoggedInState {
     private String username = "";
     private String groupname = "";
     private String groupMessage = "";
+    private String groupMessageTranslated = "";
     private String clientMessage = "";
     private String ipAddress = "";
     private String port = "";
@@ -19,6 +20,7 @@ public class LoggedInState {
         ipAddress = copy.ipAddress;
         port = copy.port;
         socket = copy.socket;
+        groupMessageTranslated = copy.groupMessageTranslated;
     }
 
     // Because of the previous copy constructor, the default constructor must be explicit.
@@ -46,6 +48,8 @@ public class LoggedInState {
     public Socket getSocket() {
         return socket;
     }
+    public String getGroupMessageTranslated() {return groupMessageTranslated;}
+    public void setGroupMessageTranslated(String groupMessageTranslated) {this.groupMessageTranslated = groupMessageTranslated;}
     public void setGroupname(String groupname) {
         this.groupname = groupname;
     }

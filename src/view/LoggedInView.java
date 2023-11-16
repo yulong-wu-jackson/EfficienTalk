@@ -31,6 +31,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     final JButton notify;
 
     final JButton logOut;
+    final JCheckBox translate;
     public static JTextArea textArea;
     static Socket socket = null;
 
@@ -75,6 +76,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         buttons.add(notify);
         logOut = new JButton(loggedInViewModel.LOGOUT_BUTTON_LABEL);
         buttons.add(logOut);
+        translate = new JCheckBox(loggedInViewModel.TRANSLATE_CHECK_BOX_LABEL);
 
 
         textArea.append("Welcome to the chat room!\n");
@@ -157,6 +159,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.add(username);
         this.add(address);
         this.add(port);
+        this.add(translate);
         this.add(scrollPane);
         this.add(clientMessage);
         this.add(buttons);    }
@@ -178,6 +181,10 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             send.setEnabled(true);
         }
         state.setGroupMessage(textArea.getText());
+        // todo: api stuff
+        //String translated = api(state.getGroupMessage());
+        //state.setGroupMessageTranslated(translated);
+
 
     }
 }
