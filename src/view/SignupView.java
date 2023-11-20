@@ -71,6 +71,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         clear.setFont(new Font(null, Font.BOLD, 15));
         buttons.add(clear);
         swithToLogin = new JButton(SignupViewModel.SWITCH_TO_LOGIN_BUTTON_LABEL);
+        swithToLogin.setFont(new Font(null, Font.BOLD, 15));
         buttons.add(swithToLogin);
 
         signUp.addActionListener(
