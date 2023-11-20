@@ -1,33 +1,35 @@
 package app.help;
 
-import okhttp3.*;
-
-import java.io.IOException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import org.json.JSONObject;
 
 public class SummaryApi {
-    private static final String API_URL = "https://api.openai.com/v1/engines/davinci-codex/completions";
-    private static final String API_KEY = "YOUR_API_KEY_HERE";
 
-    public static String summarize(String text) throws IOException {
-        OkHttpClient client = new OkHttpClient();
+        private String apiKey;
 
-        MediaType mediaType = MediaType.parse("application/json");
-        RequestBody body = RequestBody.create(mediaType, "{\n  \"prompt\": \"" + text + "\",\n  \"max_tokens\": 100\n}");
-        Request request = new Request.Builder()
-                .url(API_URL)
-                .post(body)
-                .addHeader("Authorization", "Bearer " + API_KEY)
-                .addHeader("Content-Type", "application/json")
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
+        public SummaryApi(String apiKey) {
+                this.apiKey = apiKey;
         }
-    }
 
-    public static void main(String[] args) throws IOException {
-        String originalText = "Your text to summarize goes here...";
-        String summary = summarize(originalText);
-        System.out.println("Summarized Text: " + summary);
-    }
+        public String getSummary(String text) throws Exception {
+                String requestParams = "key=" + apiKey + "&txt=" + URLEncoder.encode(text, StandardCharsets.UTF_8)
+                        + "&sentences=5"; // Number of sentences in the summary
+
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create("https://api.meaningcloud.com/summarization-1.0"))
+                        .header("Content-Type", "application/x-www-form-urlencoded")
+                        .POST(HttpRequest.BodyPublishers.ofString(requestParams))
+                        .build();
+
+                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+                JSONObject jsonResponse = new JSONObject(response.body());
+                return jsonResponse.optString("summary", "No summary available.");
+        }
 }
