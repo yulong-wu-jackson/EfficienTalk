@@ -26,9 +26,14 @@ public class ConnectView extends JPanel implements ActionListener, PropertyChang
         this.connectViewModel = connectViewModel;
         this.connectViewModel.addPropertyChangeListener(this);
 
-        JLabel titleLabel = new JLabel("Connect Screen");
+        JLabel titleLabel = new JLabel("Welcome! Please Connect to a Server");
         titleLabel.setAlignmentX(0.5f);
         titleLabel.setFont(titleLabel.getFont().deriveFont(18.0f));
+
+        JLabel blankLabel = new JLabel(" ");
+        blankLabel.setFont(titleLabel.getFont().deriveFont(18.0f));
+        JLabel blankLabel2 = new JLabel(" ");
+        blankLabel2.setFont(titleLabel.getFont().deriveFont(18.0f));
 
         LabelTextPanel ipInfo = new LabelTextPanel(
                 new JLabel("IP Address"), ipAdressInputField);
@@ -96,7 +101,9 @@ public class ConnectView extends JPanel implements ActionListener, PropertyChang
 
 
         this.setLayout(new BoxLayout(this, 1));
+        this.add(blankLabel);
         this.add(titleLabel);
+        this.add(blankLabel2);
         this.add(ipInfo);
         this.add(portInfo);
         this.add(buttons);

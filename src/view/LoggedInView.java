@@ -44,7 +44,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.sendMessageController = sendMessageController;
         this.loggedInViewModel.addPropertyChangeListener(this);
 
-        JLabel title = new JLabel("Logged In Screen");
+        JLabel title = new JLabel("Chat Room");
         title.setFont(new Font(null, Font.BOLD, 18));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -155,8 +155,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.add(title);
         this.add(usernameInfo);
         this.add(username);
-        this.add(address);
-        this.add(port);
+//        this.add(address);
+//        this.add(port);
         this.add(scrollPane);
         this.add(clientMessage);
         this.add(buttons);
