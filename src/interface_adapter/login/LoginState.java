@@ -1,5 +1,7 @@
 package interface_adapter.login;
 
+import java.net.Socket;
+
 public class LoginState {
     private String username = "";
     private String usernameError = null;
@@ -9,6 +11,7 @@ public class LoginState {
     private String groupname = "";
     private String ipAddress = "";
     private String port = "";
+    private Socket socket;
 
     public LoginState(LoginState copy) {
         username = copy.username;
@@ -18,6 +21,7 @@ public class LoginState {
         groupname = copy.groupname;
         ipAddress = copy.ipAddress;
         port = copy.port;
+        socket = copy.socket;
     }
 
     // Because of the previous copy constructor, the default constructor must be explicit.
@@ -47,6 +51,9 @@ public class LoginState {
     public String getPort() {
         return port;
     }
+    public Socket getSocket() {
+        return socket;
+    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -71,5 +78,8 @@ public class LoginState {
     }
     public void setPort(String port) {
         this.port = port;
+    }
+    public void setSocket(Socket socket) {
+        this.socket = socket;
     }
 }

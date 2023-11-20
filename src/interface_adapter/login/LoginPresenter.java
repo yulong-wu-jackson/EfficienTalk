@@ -41,7 +41,8 @@ public class LoginPresenter implements LoginOutputBoundary {
 
 
         try {
-            Socket socket = new Socket(response.getIpAddress(), Integer.parseInt(response.getPort()));
+            //Socket socket = new Socket(response.getIpAddress(), Integer.parseInt(response.getPort()));
+            Socket socket = loginViewModel.getState().getSocket();
             loggedInState.setSocket(socket);
 
             ServerHandler serverHandler = new ServerHandler(socket, LoggedInView.textArea);
