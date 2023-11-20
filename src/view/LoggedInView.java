@@ -44,7 +44,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.sendMessageController = sendMessageController;
         this.loggedInViewModel.addPropertyChangeListener(this);
 
-        JLabel title = new JLabel("Logged In Screen");
+        JLabel title = new JLabel("Chat Room");
         title.setFont(new Font(null, Font.BOLD, 18));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -97,7 +97,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             }
         });
 
-        send.setEnabled(false);
+
 
 
         send.addActionListener(
@@ -155,8 +155,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.add(title);
         this.add(usernameInfo);
         this.add(username);
-        this.add(address);
-        this.add(port);
+//        this.add(address);
+//        this.add(port);
         this.add(scrollPane);
         this.add(clientMessage);
         this.add(buttons);    }
@@ -174,8 +174,11 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         username.setText("User Name: " + state.getUsername());
         address.setText("IP: " + state.getIpAddress());
         port.setText("port: " + state.getPort());
-        if (state.getSocket() != null) {
-            send.setEnabled(true);
+        if (state.getSocket() == null) {
+            send.setEnabled(false);
+            notify.setEnabled(false);
+            textArea.append("Cannot connect to server.\n");
+            textArea.append("Please restart the application.\n");
         }
         state.setGroupMessage(textArea.getText());
 

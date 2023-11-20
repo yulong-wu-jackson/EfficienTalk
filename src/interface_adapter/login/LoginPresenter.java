@@ -9,6 +9,7 @@ import use_case.login.LoginOutputData;
 import view.LoggedInView;
 import view.ServerHandler;
 
+import javax.swing.*;
 import java.net.Socket;
 
 public class LoginPresenter implements LoginOutputBoundary {
@@ -40,7 +41,8 @@ public class LoginPresenter implements LoginOutputBoundary {
 
 
         try {
-            Socket socket = new Socket(response.getIpAddress(), Integer.parseInt(response.getPort()));
+            //Socket socket = new Socket(response.getIpAddress(), Integer.parseInt(response.getPort()));
+            Socket socket = loginViewModel.getState().getSocket();
             loggedInState.setSocket(socket);
 
             ServerHandler serverHandler = new ServerHandler(socket, LoggedInView.textArea);
@@ -48,6 +50,7 @@ public class LoginPresenter implements LoginOutputBoundary {
             thread.start();
 
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Cannot connect to server.");
             System.out.println("Error: " + e);
         }
 
@@ -63,6 +66,8 @@ public class LoginPresenter implements LoginOutputBoundary {
     public void prepareFailView(String error) {
         LoginState loginState = loginViewModel.getState();
         loginState.setUsernameError(error);
+        loginViewModel.setState(loginState);
         loginViewModel.firePropertyChanged();
+        JOptionPane.showMessageDialog(null, "Login failed.");
     }
 }
