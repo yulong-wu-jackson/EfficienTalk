@@ -19,7 +19,7 @@ public class TranslatePresenter implements TranslateOutputBoundary {
     @Override
     public void prepareSuccessView(TranslateOutputData translateOutputData) {
         JScrollPane scrollpane = translateOutputData.getScrollPane();
-        TextArea translatedTextArea = translateOutputData.getTranslatedTextArea();
+        JTextArea translatedTextArea = translateOutputData.getTranslatedTextArea();
         scrollpane.setViewportView(translatedTextArea);
     }
 }
