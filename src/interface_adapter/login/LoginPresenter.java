@@ -66,6 +66,8 @@ public class LoginPresenter implements LoginOutputBoundary {
     public void prepareFailView(String error) {
         LoginState loginState = loginViewModel.getState();
         loginState.setUsernameError(error);
+        loginViewModel.setState(loginState);
         loginViewModel.firePropertyChanged();
+        JOptionPane.showMessageDialog(null, "Login failed.");
     }
 }
