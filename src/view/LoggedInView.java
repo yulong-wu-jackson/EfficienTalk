@@ -4,6 +4,7 @@ import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.send_message.SendMessageController;
+import interface_adapter.translate.TranslateController;
 
 
 import javax.swing.*;
@@ -22,6 +23,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final LoggedInViewModel loggedInViewModel;
     private final LogoutController logoutController;
     private final SendMessageController sendMessageController;
+    private final TranslateController translateController;
 
     JLabel username;
     JLabel address;
@@ -39,11 +41,12 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
      * A window with a title and a JButton.
      */
     public LoggedInView(LoggedInViewModel loggedInViewModel, LogoutController logoutController,
-                        SendMessageController sendMessageController) {
+                        SendMessageController sendMessageController, TranslateController translateController) {
         this.loggedInViewModel = loggedInViewModel;
         this.logoutController = logoutController;
         this.sendMessageController = sendMessageController;
         this.loggedInViewModel.addPropertyChangeListener(this);
+        this.translateController = translateController;
 
         JLabel title = new JLabel("Logged In Screen");
         title.setFont(new Font(null, Font.BOLD, 18));
@@ -151,6 +154,20 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 }
         );
 
+        translate.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (translate.isSelected()) {
+                            LoggedInState loggedInState = loggedInViewModel.getState();
+                            translateController.execute(scrollPane, loggedInState);
+                        } else {
+                            scrollPane.setViewportView(textArea);
+                        }
+                    }
+                }
+        );
+
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -181,10 +198,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             send.setEnabled(true);
         }
         state.setGroupMessage(textArea.getText());
-        // todo: api stuff
-        //String translated = api(state.getGroupMessage());
-        //state.setGroupMessageTranslated(translated);
-
-
+        loggedInViewModel.setState(state);
     }
 }
