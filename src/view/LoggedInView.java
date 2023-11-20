@@ -160,6 +160,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     public void actionPerformed(ActionEvent e) {
                         if (translate.isSelected()) {
                             LoggedInState loggedInState = loggedInViewModel.getState();
+                            loggedInState.setGroupMessage(textArea.getText());
                             translateController.execute(scrollPane, loggedInState);
                         } else {
                             scrollPane.setViewportView(textArea);

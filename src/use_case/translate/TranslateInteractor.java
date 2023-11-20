@@ -21,20 +21,19 @@ public class TranslateInteractor implements TranslateInputBoundary{
         String message = loggedInState.getGroupMessage();
         ApiTokens apiTokens = new ApiTokens();
         TransApi api = new TransApi(apiTokens.getAPP_ID(), apiTokens.getSECURITY_KEY());
-        String translated = api.getTransResult(message, "auto", "en");
+        String translated = api.getTransResult(message, "zh", "en");
         String key = "\"dst\":\"";
         int startIndex = 0;
-        String result = null;
-        System.out.println(translated);
+        String result = "";
         while ((startIndex = translated.indexOf(key, startIndex)) != -1) {
             startIndex += key.length();
             int endIndex = translated.indexOf("\"", startIndex);
-            result = translated.substring(startIndex, endIndex);
+            result += translated.substring(startIndex, endIndex) + "\n";
             startIndex = endIndex;
         }
-        System.out.println(result);
         loggedInState.setGroupMessageTranslated(result);
         TextArea translatedTextArea = new TextArea();
+        translatedTextArea.setFont(new Font(null, Font.PLAIN, 16));
         translatedTextArea.append(result);
         TranslateOutputData translateOutputData = new TranslateOutputData(translatedTextArea, scrollPane);
         translatePresenter.prepareSuccessView(translateOutputData);

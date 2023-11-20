@@ -9,11 +9,16 @@ public class translate_example {
     public static void main(String[] args) {
         TransApi api = new TransApi(APP_ID, SECURITY_KEY);
 
-        String query = "Nice to meet you \n 谢谢你 \n 不客气。\n 下次再见！";
-        String translated = api.getTransResult(query, "auto", "en");
+        String query = "Welcome to the chat room!\n" +
+                "Client 127.0.0.1 said: 2222 : 你好\n" +
+                "Client 127.0.0.1 said: 2222 : 周一\n" +
+                "Client 127.0.0.1 said: 2222 : 谢谢";
+        System.out.println(query);
+        String translated = api.getTransResult(query, "zh", "en");
         String key = "\"dst\":\"";
 
         int startIndex = 0;
+        String result = "";
         while ((startIndex = translated.indexOf(key, startIndex)) != -1) {
             // Move the startIndex to the beginning of the actual content
             startIndex += key.length();
@@ -22,12 +27,11 @@ public class translate_example {
             int endIndex = translated.indexOf("\"", startIndex);
 
             // Extract the substring
-            String result = translated.substring(startIndex, endIndex);
-
-            System.out.println(result);
+            result += translated.substring(startIndex, endIndex) + "\n";
 
             // Move past this "dst" instance for the next iteration
             startIndex = endIndex;
         }
+        System.out.println(result);
     }
 }
