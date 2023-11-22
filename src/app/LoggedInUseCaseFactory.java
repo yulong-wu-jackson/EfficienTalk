@@ -3,17 +3,15 @@ package app;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
-import interface_adapter.login.LoginController;
-import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.send_message.SendMessageController;
 import interface_adapter.send_message.SendMessagePresenter;
-import use_case.login.LoginInputBoundary;
-import use_case.login.LoginInteractor;
-import use_case.login.LoginOutputBoundary;
+import interface_adapter.translate.TranslateController;
+import interface_adapter.translate.TranslatePresenter;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
@@ -21,12 +19,12 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.send_message.SendMessageInputBoundary;
 import use_case.send_message.SendMessageInteractor;
 import use_case.send_message.SendMessageOutputBoundary;
+import use_case.translate.TranslateInputBoundary;
+import use_case.translate.TranslateInteractor;
+import use_case.translate.TranslateOutputBoundary;
 import view.LoggedInView;
-import view.LoginView;
-
 import javax.swing.*;
 import java.io.IOException;
-import java.net.Socket;
 
 public class LoggedInUseCaseFactory {
 
@@ -42,7 +40,8 @@ public class LoggedInUseCaseFactory {
         try {
             LogoutController logoutController = createLogoutUseCase(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
             SendMessageController sendMessageController = createSendMessageUseCase();
-            return new LoggedInView(loggedInViewModel, logoutController, sendMessageController);
+            TranslateController translateController = createTranslateUseCase(loggedInViewModel);
+            return new LoggedInView(loggedInViewModel, logoutController, sendMessageController, translateController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }
@@ -70,5 +69,12 @@ public class LoggedInUseCaseFactory {
         SendMessageOutputBoundary sendMessagePresenter = new SendMessagePresenter();
         SendMessageInputBoundary sendMessageInteractor = new SendMessageInteractor(sendMessagePresenter);
         return new SendMessageController(sendMessageInteractor);
+    }
+
+    private static TranslateController createTranslateUseCase(LoggedInViewModel loggedInViewModel) {
+        TranslateOutputBoundary translatePresenter = new TranslatePresenter(loggedInViewModel);
+        LoggedInState loggedInState = loggedInViewModel.getState();
+        TranslateInputBoundary translateInteractor = new TranslateInteractor(translatePresenter);
+        return new TranslateController(translateInteractor);
     }
 }
