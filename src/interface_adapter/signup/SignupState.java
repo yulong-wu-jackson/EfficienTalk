@@ -1,5 +1,7 @@
 package interface_adapter.signup;
 
+import java.net.Socket;
+
 public class SignupState {
     private String username = "";
     private String usernameError = null;
@@ -11,6 +13,7 @@ public class SignupState {
     private String email = "";
 
     private String emailError = null;
+    private Socket socket;
 
     public SignupState(SignupState copy) {
         username = copy.username;
@@ -21,6 +24,7 @@ public class SignupState {
         repeatPasswordError = copy.repeatPasswordError;
         email = copy.email;
         emailError = copy.emailError;
+        socket = copy.socket;
     }
 
     // Because of the previous copy constructor, the default constructor must be explicit.
@@ -55,6 +59,10 @@ public class SignupState {
 
     public String getEmailError() {return emailError;}
 
+    public Socket getSocket() {
+        return socket;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -82,6 +90,10 @@ public class SignupState {
     public void setEmail(String email) {this.email = email;}
 
     public void setEmailError(String emailError) {this.emailError = emailError;}
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+    }
 
     @Override
     public String toString() {
