@@ -7,6 +7,7 @@ import interface_adapter.notify.NotifyController;
 import interface_adapter.notify.NotifyState;
 import interface_adapter.notify.NotifyViewModel;
 import interface_adapter.send_message.SendMessageController;
+import interface_adapter.translate.TranslateController;
 
 
 import javax.swing.*;
@@ -27,6 +28,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final NotifyViewModel notifyViewModel;
     private final LogoutController logoutController;
     private final SendMessageController sendMessageController;
+    private final TranslateController translateController;
 
     private final NotifyController notifyController;
 
@@ -38,21 +40,28 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     final JButton notify;
 
     final JButton logOut;
+    final JCheckBox translate;
     public static JTextArea textArea;
     static Socket socket = null;
 
     /**
      * A window with a title and a JButton.
      */
+
     public LoggedInView(LoggedInViewModel loggedInViewModel, NotifyViewModel notifyViewModel, LogoutController logoutController,
-                        SendMessageController sendMessageController, NotifyController notifyController) {
+                        SendMessageController sendMessageController, TranslateController translateController, NotifyController notifyController) {
+
         this.loggedInViewModel = loggedInViewModel;
         this.logoutController = logoutController;
         this.sendMessageController = sendMessageController;
         this.notifyController = notifyController;
         this.loggedInViewModel.addPropertyChangeListener(this);
+
         this.notifyViewModel = notifyViewModel;
         this.notifyViewModel.addPropertyChangeListener(this);
+
+        this.translateController = translateController;
+
 
         JLabel title = new JLabel("Chat Room");
         title.setFont(new Font(null, Font.BOLD, 18));
@@ -85,6 +94,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         buttons.add(notify);
         logOut = new JButton(loggedInViewModel.LOGOUT_BUTTON_LABEL);
         buttons.add(logOut);
+        translate = new JCheckBox(loggedInViewModel.TRANSLATE_CHECK_BOX_LABEL);
 
 
         textArea.append("Welcome to the chat room!\n");
@@ -162,12 +172,28 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 }
         );
 
+        translate.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (translate.isSelected()) {
+                            LoggedInState loggedInState = loggedInViewModel.getState();
+                            loggedInState.setGroupMessage(textArea.getText());
+                            translateController.execute(scrollPane, loggedInState);
+                        } else {
+                            scrollPane.setViewportView(textArea);
+                        }
+                    }
+                }
+        );
+
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
         this.add(usernameInfo);
         this.add(username);
+
 //        this.add(address);
 //        this.add(port);
         this.add(scrollPane);
@@ -215,6 +241,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             textArea.append("Please restart the application.\n");
         }
         state.setGroupMessage(textArea.getText());
+
     }
         else if(newValue instanceof NotifyState) {
             JOptionPane.showMessageDialog(this, "Sent email successfully");
