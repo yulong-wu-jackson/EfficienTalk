@@ -7,6 +7,7 @@ import entity.CommonUserFactory;
 import interface_adapter.clear_users.ClearViewModel;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logged_in.LoggedInViewModel;
+import interface_adapter.notify.NotifyViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.ViewManagerModel;
 import view.LoggedInView;
@@ -50,6 +51,7 @@ public class ServerApp {
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
         ClearViewModel clearViewModel = new ClearViewModel();
+        NotifyViewModel notifyViewModel = new NotifyViewModel();
 
         FileUserDataAccessObject userDataAccessObject;
         try {
@@ -73,7 +75,7 @@ public class ServerApp {
                 signupViewModel, userDataAccessObject, groupDataAccessObject);
         views.add(loginView, loginView.viewName);
 
-        LoggedInView loggedInView = LoggedInUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject,userDataAccessObject);
+        LoggedInView loggedInView = LoggedInUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, notifyViewModel, userDataAccessObject,userDataAccessObject);
         views.add(loggedInView, loggedInView.viewName);
 
         viewManagerModel.setActiveView(signupView.viewName);

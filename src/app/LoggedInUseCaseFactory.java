@@ -9,6 +9,7 @@ import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.notify.NotifyViewModel;
 import interface_adapter.send_message.SendMessageController;
 import interface_adapter.send_message.SendMessagePresenter;
 import interface_adapter.notify.NotifyController;
@@ -42,14 +43,14 @@ public class LoggedInUseCaseFactory {
     public static LoggedInView create(
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
-            LoggedInViewModel loggedInViewModel,
+            LoggedInViewModel loggedInViewModel, NotifyViewModel notifyViewModel,
             LoginUserDataAccessInterface userDataAccessObject, NotifyUserDataAccessInterface userDAO2) {
 
         try {
             LogoutController logoutController = createLogoutUseCase(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
             SendMessageController sendMessageController = createSendMessageUseCase();
-            NotifyController notifyController = creatNotifyUseCase(userDAO2);
-            return new LoggedInView(loggedInViewModel, logoutController, sendMessageController, notifyController);
+            NotifyController notifyController = creatNotifyUseCase(notifyViewModel, userDAO2);
+            return new LoggedInView(loggedInViewModel, notifyViewModel, logoutController, sendMessageController, notifyController);
 
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
@@ -80,9 +81,9 @@ public class LoggedInUseCaseFactory {
         return new SendMessageController(sendMessageInteractor);
     }
 
-    private static NotifyController creatNotifyUseCase(NotifyUserDataAccessInterface userDataAccessObject){
+    private static NotifyController creatNotifyUseCase(NotifyViewModel notifyViewModel, NotifyUserDataAccessInterface userDataAccessObject){
 
-        NotifyOutputBoundary notifyPresenter = new NotifyPresenter();
+        NotifyOutputBoundary notifyPresenter = new NotifyPresenter(notifyViewModel);
 
         NotifyInputBoundary notifyInteractor = new NotifyInteractor(notifyPresenter,userDataAccessObject);
         return new NotifyController(notifyInteractor);

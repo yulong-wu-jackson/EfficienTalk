@@ -1,9 +1,24 @@
 package interface_adapter.notify;
 import use_case.notify.NotifyOutputBoundary;
-import use_case.notify.NotifyOutputData;
+
 public class NotifyPresenter implements NotifyOutputBoundary{
+    private final NotifyViewModel notifyViewModel;
+
+    public NotifyPresenter(NotifyViewModel notifyViewModel) {
+
+        this.notifyViewModel = notifyViewModel;
+    }
+
+
     @Override
-    public void present(NotifyOutputData notifyOutputData) {
+    public void prepareSuccessView() {
+        NotifyState notifyState = notifyViewModel.getState();
+        notifyState.Notify();
+        this.notifyViewModel.setState(notifyState);
+        notifyViewModel.firePropertyChanged();
+        notifyState.unnotify();
+
 
     }
 }
+

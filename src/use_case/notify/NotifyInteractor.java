@@ -29,10 +29,10 @@ public class NotifyInteractor implements NotifyInputBoundary {
             sendEmail(message, email);
             //System.out.println("Email sent successfully.");
         }
-        NotifyOutputData sendMessageOutputData = new NotifyOutputData(message);
 
 
-        notifyPresenter.present(sendMessageOutputData);
+
+        notifyPresenter.prepareSuccessView();
     }
 
     private static void sendEmail(String messageContent, String Email) {
