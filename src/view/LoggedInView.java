@@ -3,6 +3,7 @@ package view;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.logout.LogoutController;
+import interface_adapter.notify.NotifyController;
 import interface_adapter.send_message.SendMessageController;
 
 
@@ -23,6 +24,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final LogoutController logoutController;
     private final SendMessageController sendMessageController;
 
+    private final NotifyController notifyController;
+
     JLabel username;
     JLabel address;
     JLabel port;
@@ -38,10 +41,11 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
      * A window with a title and a JButton.
      */
     public LoggedInView(LoggedInViewModel loggedInViewModel, LogoutController logoutController,
-                        SendMessageController sendMessageController) {
+                        SendMessageController sendMessageController, NotifyController notifyController) {
         this.loggedInViewModel = loggedInViewModel;
         this.logoutController = logoutController;
         this.sendMessageController = sendMessageController;
+        this.notifyController = notifyController;
         this.loggedInViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Chat Room");
@@ -125,12 +129,15 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(notify)) {
+                            LoggedInState currentState = loggedInViewModel.getState();
+                            notifyController.execute(currentState.getClientMessage());
+
                             // TODO: send notification to group
                             // notifyController.execute();
 
                             // after client sent notification, clear the message input field
                             messageInputField.setText("");
-                            LoggedInState currentState = loggedInViewModel.getState();
+                            currentState = loggedInViewModel.getState();
                             currentState.setClientMessage(messageInputField.getText());
                             loggedInViewModel.setState(currentState);
                         }

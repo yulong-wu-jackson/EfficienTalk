@@ -92,7 +92,8 @@ public class ClientApp {
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = LoggedInUseCaseFactory.create(viewManagerModel, loginViewModel,
-                loggedInViewModel, userDataAccessObject);
+                loggedInViewModel, userDataAccessObject, userDataAccessObject);
+        //Todo: check validity
         views.add(loggedInView, loggedInView.viewName);
 
         ConnectView connectView = ConnectUseCaseFactory.create(viewManagerModel, connectViewModel, signupViewModel);

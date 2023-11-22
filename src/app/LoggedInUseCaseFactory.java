@@ -11,6 +11,8 @@ import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.send_message.SendMessageController;
 import interface_adapter.send_message.SendMessagePresenter;
+import interface_adapter.notify.NotifyController;
+import interface_adapter.notify.NotifyPresenter;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -21,6 +23,10 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.send_message.SendMessageInputBoundary;
 import use_case.send_message.SendMessageInteractor;
 import use_case.send_message.SendMessageOutputBoundary;
+import use_case.notify.NotifyUserDataAccessInterface;
+import use_case.notify.NotifyInputBoundary;
+import use_case.notify.NotifyInteractor;
+import use_case.notify.NotifyOutputBoundary;
 import view.LoggedInView;
 import view.LoginView;
 
@@ -37,12 +43,14 @@ public class LoggedInUseCaseFactory {
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
-            LoginUserDataAccessInterface userDataAccessObject) {
+            LoginUserDataAccessInterface userDataAccessObject, NotifyUserDataAccessInterface userDAO2) {
 
         try {
             LogoutController logoutController = createLogoutUseCase(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
             SendMessageController sendMessageController = createSendMessageUseCase();
-            return new LoggedInView(loggedInViewModel, logoutController, sendMessageController);
+            NotifyController notifyController = creatNotifyUseCase(userDAO2);
+            return new LoggedInView(loggedInViewModel, logoutController, sendMessageController, notifyController);
+
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }
@@ -70,5 +78,14 @@ public class LoggedInUseCaseFactory {
         SendMessageOutputBoundary sendMessagePresenter = new SendMessagePresenter();
         SendMessageInputBoundary sendMessageInteractor = new SendMessageInteractor(sendMessagePresenter);
         return new SendMessageController(sendMessageInteractor);
+    }
+
+    private static NotifyController creatNotifyUseCase(NotifyUserDataAccessInterface userDataAccessObject){
+
+        NotifyOutputBoundary notifyPresenter = new NotifyPresenter();
+
+        NotifyInputBoundary notifyInteractor = new NotifyInteractor(notifyPresenter,userDataAccessObject);
+        return new NotifyController(notifyInteractor);
+
     }
 }
