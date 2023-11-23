@@ -98,7 +98,7 @@ public class LoggedInUseCaseFactory {
         NotifyOutputBoundary notifyPresenter = new NotifyPresenter(notifyViewModel);
 
         NotifyInputBoundary notifyInteractor = new NotifyInteractor(notifyPresenter,userDataAccessObject);
-        return new NotifyController(notifyInteractor);
+        return new NotifyController(notifyInteractor);}
 
     private static TranslateController createTranslateUseCase(LoggedInViewModel loggedInViewModel) {
         TranslateOutputBoundary translatePresenter = new TranslatePresenter(loggedInViewModel);
