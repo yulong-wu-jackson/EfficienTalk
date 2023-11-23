@@ -11,6 +11,8 @@ import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.send_message.SendMessageController;
 import interface_adapter.send_message.SendMessagePresenter;
+import interface_adapter.summary.SummaryController;
+import interface_adapter.summary.SummaryPresenter;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -21,6 +23,7 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.send_message.SendMessageInputBoundary;
 import use_case.send_message.SendMessageInteractor;
 import use_case.send_message.SendMessageOutputBoundary;
+import use_case.summary.*;
 import view.LoggedInView;
 import view.LoginView;
 
@@ -37,12 +40,14 @@ public class LoggedInUseCaseFactory {
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
-            LoginUserDataAccessInterface userDataAccessObject) {
+            LoginUserDataAccessInterface userDataAccessObject,
+            SummaryUserDataAccessInterface summaryUserDataAccessObject) {
 
         try {
             LogoutController logoutController = createLogoutUseCase(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
             SendMessageController sendMessageController = createSendMessageUseCase();
-            return new LoggedInView(loggedInViewModel, logoutController, sendMessageController);
+            SummaryController summaryController = createSummaryUseCase(summaryUserDataAccessObject);
+            return new LoggedInView(loggedInViewModel, logoutController, sendMessageController, summaryController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }
@@ -70,5 +75,11 @@ public class LoggedInUseCaseFactory {
         SendMessageOutputBoundary sendMessagePresenter = new SendMessagePresenter();
         SendMessageInputBoundary sendMessageInteractor = new SendMessageInteractor(sendMessagePresenter);
         return new SendMessageController(sendMessageInteractor);
+    }
+
+    private static SummaryController createSummaryUseCase(SummaryUserDataAccessInterface summaryUserDataAccessObject) {
+        SummaryOutputBoundary summaryPresenter = new SummaryPresenter();
+        SummaryInputBoundary summaryInteractor = new SummaryInteractor(summaryUserDataAccessObject, summaryPresenter);
+        return new SummaryController(summaryInteractor);
     }
 }

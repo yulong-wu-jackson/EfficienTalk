@@ -6,6 +6,7 @@ import entity.UserFactory;
 import use_case.clear_users.ClearUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
+import use_case.summary.SummaryUserDataAccessInterface;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -16,7 +17,8 @@ import java.util.Map;
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         ClearUserDataAccessInterface,
-        LoginUserDataAccessInterface {
+        LoginUserDataAccessInterface,
+        SummaryUserDataAccessInterface {
 
     private final File csvFile;
 
@@ -121,5 +123,27 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             usernames.add(user.getName());
         }
         return usernames;
+    }
+    public static void saveStringToFile(String content, String filePath) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(content);
+        } catch (IOException e) {
+            System.err.println("An error occurred while saving the file.");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void saveSummary(String summary) {
+        String filePath = "summary.txt";
+
+        try {
+            saveStringToFile(summary, filePath);
+            System.out.println("Content saved to file: " + filePath);
+        } catch (IOException e) {
+            System.err.println("An error occurred while saving the file.");
+            e.printStackTrace();
+        }
+
     }
 }

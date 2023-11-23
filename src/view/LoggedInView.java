@@ -4,6 +4,7 @@ import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.send_message.SendMessageController;
+import interface_adapter.summary.SummaryController;
 
 
 import javax.swing.*;
@@ -22,6 +23,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final LoggedInViewModel loggedInViewModel;
     private final LogoutController logoutController;
     private final SendMessageController sendMessageController;
+    private final SummaryController summaryController;
 
     JLabel username;
     JLabel address;
@@ -29,8 +31,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     final JTextField messageInputField = new JTextField(30);
     final JButton send;
     final JButton notify;
-
     final JButton logOut;
+    final JButton summary;
+
     public static JTextArea textArea;
     static Socket socket = null;
 
@@ -38,11 +41,13 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
      * A window with a title and a JButton.
      */
     public LoggedInView(LoggedInViewModel loggedInViewModel, LogoutController logoutController,
-                        SendMessageController sendMessageController) {
+                        SendMessageController sendMessageController, SummaryController summaryController) {
         this.loggedInViewModel = loggedInViewModel;
         this.logoutController = logoutController;
         this.sendMessageController = sendMessageController;
+        this.summaryController = summaryController;
         this.loggedInViewModel.addPropertyChangeListener(this);
+        LoggedInView self = this;
 
         JLabel title = new JLabel("Logged In Screen");
         title.setFont(new Font(null, Font.BOLD, 18));
@@ -75,6 +80,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         buttons.add(notify);
         logOut = new JButton(loggedInViewModel.LOGOUT_BUTTON_LABEL);
         buttons.add(logOut);
+        summary = new JButton(loggedInViewModel.SUMMARY_BUTTON_LABEL);
+        buttons.add(summary);
 
 
         textArea.append("Welcome to the chat room!\n");
@@ -127,7 +134,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                         if (e.getSource().equals(notify)) {
                             // TODO: send notification to group
                             // notifyController.execute();
-
                             // after client sent notification, clear the message input field
                             messageInputField.setText("");
                             LoggedInState currentState = loggedInViewModel.getState();
@@ -149,6 +155,20 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 }
         );
 
+        summary.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(summary)) {
+                            String groupMessage = textArea.getText();
+                            String summary = summaryController.getSummary(groupMessage);
+                            summaryController.saveSummary(summary);
+                            JOptionPane.showMessageDialog(self, summary);
+                        }
+                    }
+                }
+        );
+
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -159,7 +179,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.add(port);
         this.add(scrollPane);
         this.add(clientMessage);
-        this.add(buttons);    }
+        this.add(buttons);
+    }
 
     /**
      * React to a button click that results in evt.
@@ -178,6 +199,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             send.setEnabled(true);
         }
         state.setGroupMessage(textArea.getText());
-
+        loggedInViewModel.setState(state);
     }
 }
