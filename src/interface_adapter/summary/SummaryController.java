@@ -1,12 +1,11 @@
 package interface_adapter.summary;
 
-import use_case.send_message.SendMessageInputData;
 import use_case.summary.SummaryInputBoundary;
 import use_case.summary.SummaryInputData;
 
 public class SummaryController {
     final private SummaryInputBoundary summaryInteractor;
-    public  SummaryController(SummaryInputBoundary summaryInteractor) {
+    public SummaryController(SummaryInputBoundary summaryInteractor) {
         this.summaryInteractor = summaryInteractor;
     }
 

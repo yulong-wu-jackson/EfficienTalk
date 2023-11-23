@@ -3,6 +3,7 @@ package view;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.logout.LogoutController;
+import interface_adapter.save.SaveController;
 import interface_adapter.send_message.SendMessageController;
 import interface_adapter.summary.SummaryController;
 
@@ -25,6 +26,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final SendMessageController sendMessageController;
     private final SummaryController summaryController;
 
+    private final SaveController saveController;
+
     JLabel username;
     JLabel address;
     JLabel port;
@@ -33,6 +36,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     final JButton notify;
     final JButton logOut;
     final JButton summary;
+    final JButton save;
 
     public static JTextArea textArea;
     static Socket socket = null;
@@ -41,11 +45,13 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
      * A window with a title and a JButton.
      */
     public LoggedInView(LoggedInViewModel loggedInViewModel, LogoutController logoutController,
-                        SendMessageController sendMessageController, SummaryController summaryController) {
+                        SendMessageController sendMessageController,
+                        SummaryController summaryController, SaveController saveController) {
         this.loggedInViewModel = loggedInViewModel;
         this.logoutController = logoutController;
         this.sendMessageController = sendMessageController;
         this.summaryController = summaryController;
+        this.saveController = saveController;
         this.loggedInViewModel.addPropertyChangeListener(this);
         LoggedInView self = this;
 
@@ -82,6 +88,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         buttons.add(logOut);
         summary = new JButton(loggedInViewModel.SUMMARY_BUTTON_LABEL);
         buttons.add(summary);
+        save = new JButton(loggedInViewModel.SAVE_BUTTON_LABEL);
+        buttons.add(save);
 
 
         textArea.append("Welcome to the chat room!\n");
@@ -164,6 +172,20 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                             String summary = summaryController.getSummary(groupMessage);
                             summaryController.saveSummary(summary);
                             JOptionPane.showMessageDialog(self, summary);
+                        }
+                    }
+                }
+        );
+
+        save.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(save)) {
+                            String groupMessage = textArea.getText();
+                            String savedMessage = saveController.getMessage(groupMessage);
+                            saveController.saveMessage(savedMessage);
+                            JOptionPane.showMessageDialog(self, "Dialogues have been saved!");
                         }
                     }
                 }

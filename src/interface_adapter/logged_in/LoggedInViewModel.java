@@ -16,6 +16,7 @@ public class LoggedInViewModel extends ViewModel {
     public static final String NOTIFICATION_BUTTON_LABEL = "Notify";
 
     public static final String SUMMARY_BUTTON_LABEL = "Summary";
+    public static final String SAVE_BUTTON_LABEL = "Save";
     private String loggedInUser;
 
     public LoggedInViewModel() {

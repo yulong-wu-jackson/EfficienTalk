@@ -9,6 +9,8 @@ import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.save.SaveController;
+import interface_adapter.save.SavePresenter;
 import interface_adapter.send_message.SendMessageController;
 import interface_adapter.send_message.SendMessagePresenter;
 import interface_adapter.summary.SummaryController;
@@ -20,6 +22,10 @@ import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
+import use_case.save.SaveInputBoundary;
+import use_case.save.SaveInteractor;
+import use_case.save.SaveOutputBoundary;
+import use_case.save.SaveUserDataAccessInterface;
 import use_case.send_message.SendMessageInputBoundary;
 import use_case.send_message.SendMessageInteractor;
 import use_case.send_message.SendMessageOutputBoundary;
@@ -41,13 +47,15 @@ public class LoggedInUseCaseFactory {
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
             LoginUserDataAccessInterface userDataAccessObject,
-            SummaryUserDataAccessInterface summaryUserDataAccessObject) {
+            SummaryUserDataAccessInterface summaryUserDataAccessObject,
+            SaveUserDataAccessInterface saveUserDataAccessObject) {
 
         try {
             LogoutController logoutController = createLogoutUseCase(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
             SendMessageController sendMessageController = createSendMessageUseCase();
             SummaryController summaryController = createSummaryUseCase(summaryUserDataAccessObject);
-            return new LoggedInView(loggedInViewModel, logoutController, sendMessageController, summaryController);
+            SaveController saveController = createSaveUseCase(saveUserDataAccessObject);
+            return new LoggedInView(loggedInViewModel, logoutController, sendMessageController, summaryController, saveController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }
@@ -81,5 +89,11 @@ public class LoggedInUseCaseFactory {
         SummaryOutputBoundary summaryPresenter = new SummaryPresenter();
         SummaryInputBoundary summaryInteractor = new SummaryInteractor(summaryUserDataAccessObject, summaryPresenter);
         return new SummaryController(summaryInteractor);
+    }
+
+    private static SaveController createSaveUseCase(SaveUserDataAccessInterface saveUserDataAccessObject) {
+        SaveOutputBoundary savePresenter = new SavePresenter();
+        SaveInputBoundary saveInteractor = new SaveInteractor(saveUserDataAccessObject, savePresenter);
+        return new SaveController(saveInteractor);
     }
 }

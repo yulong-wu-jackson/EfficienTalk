@@ -1,6 +1,7 @@
 package app;
 
 import data_access.FileGroupDataAccessObject;
+import data_access.FileSaveDataAccessObject;
 import data_access.FileSummayDataAccessObject;
 import data_access.FileUserDataAccessObject;
 import entity.CommonGroupFactory;
@@ -62,6 +63,9 @@ public class ServerApp {
         FileSummayDataAccessObject summaryUserDataAccessObject;
         summaryUserDataAccessObject = new FileSummayDataAccessObject();
 
+        FileSaveDataAccessObject saveUserDataAccessObject;
+        saveUserDataAccessObject = new FileSaveDataAccessObject();
+
         FileGroupDataAccessObject groupDataAccessObject;
         try {
             groupDataAccessObject = new FileGroupDataAccessObject("./groups.csv", new CommonGroupFactory());
@@ -81,7 +85,7 @@ public class ServerApp {
                 loginViewModel,
                 loggedInViewModel,
                 userDataAccessObject,
-                summaryUserDataAccessObject);
+                summaryUserDataAccessObject, saveUserDataAccessObject);
         views.add(loggedInView, loggedInView.viewName);
 
         viewManagerModel.setActiveView(signupView.viewName);
