@@ -1,5 +1,6 @@
 package interface_adapter.notify;
 import use_case.notify.NotifyOutputBoundary;
+import use_case.notify.NotifyOutputData;
 
 public class NotifyPresenter implements NotifyOutputBoundary{
     private final NotifyViewModel notifyViewModel;
@@ -20,5 +21,20 @@ public class NotifyPresenter implements NotifyOutputBoundary{
 
 
     }
+
+    @Override
+    public void prepareFailedView(NotifyOutputData users) {
+        NotifyState notifyState = notifyViewModel.getState();
+        notifyState.addError();
+        notifyState.addErrorUsers(users.getUsers());
+        this.notifyViewModel.setState(notifyState);
+        notifyViewModel.firePropertyChanged();
+        notifyState.removeErrorUsers();
+        notifyState.removeError();
+
+
+    }
 }
+
+
 
