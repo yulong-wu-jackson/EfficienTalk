@@ -19,8 +19,7 @@ import java.util.Map;
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         ClearUserDataAccessInterface,
         LoginUserDataAccessInterface,
-        SummaryUserDataAccessInterface, 
-        LoginUserDataAccessInterface, 
+        SummaryUserDataAccessInterface,
         NotifyUserDataAccessInterface {
 
     private final File csvFile;

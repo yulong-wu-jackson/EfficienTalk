@@ -102,7 +102,7 @@ public class ClientApp {
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = LoggedInUseCaseFactory.create(viewManagerModel, loginViewModel,
-                loggedInViewModel, userDataAccessObject, summaryUserDataAccessObject, saveUserDataAccessObject, notifyViewModel, userDataAccessObject, userDataAccessObject);
+                loggedInViewModel, userDataAccessObject, summaryUserDataAccessObject, saveUserDataAccessObject, notifyViewModel, userDataAccessObject);
 
         views.add(loggedInView, loggedInView.viewName);
 

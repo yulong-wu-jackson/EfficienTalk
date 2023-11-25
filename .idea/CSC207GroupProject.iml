@@ -13,5 +13,7 @@
     <orderEntry type="library" name="eclipse.ecf.apache.httpcomponents.httpclient" level="project" />
     <orderEntry type="library" name="activation-1.1.1" level="project" />
     <orderEntry type="library" name="javax.mail" level="project" />
+    <orderEntry type="library" name="javax.mail" level="project" />
+    <orderEntry type="library" name="json-20210307" level="project" />
   </component>
 </module>

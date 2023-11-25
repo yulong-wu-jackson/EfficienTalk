@@ -1,4 +1,5 @@
 package use_case.summary;
+import app.help.ApiTokens;
 import app.help.OpenAISummaryAPI;
 
 public class SummaryInteractor implements SummaryInputBoundary{
@@ -24,8 +25,9 @@ public class SummaryInteractor implements SummaryInputBoundary{
             StringBuilder builder = new StringBuilder(groupMessage);
             builder.delete(0,26);
             String modifiedGroupMessage = builder.toString();
+            String token = ApiTokens.getOPAI_TOKEN();
             OpenAISummaryAPI summarizer =
-                    new OpenAISummaryAPI("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");
+                    new OpenAISummaryAPI(token);
             String summary = summarizer.getSummary(modifiedGroupMessage);
             return("Summary: " + summary);
         }catch (Exception e) {
