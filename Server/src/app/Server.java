@@ -78,7 +78,7 @@ public class Server {
                     // send message to all the clients
                     for (Object printWriter1 : printWriters){
                         PrintWriter pw = (PrintWriter) printWriter1;
-                        pw.println("Client " + host + " said: " + line);
+                        pw.println(line);
                     }
 
                     // send message to client
