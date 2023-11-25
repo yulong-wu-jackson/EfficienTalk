@@ -1,4 +1,4 @@
-package app;
+package app.factories;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.connect.ConnectController;

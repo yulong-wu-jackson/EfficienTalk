@@ -1,4 +1,4 @@
-package app;
+package app.factories;
 
 import interface_adapter.clear_users.ClearController;
 import interface_adapter.clear_users.ClearPresenter;

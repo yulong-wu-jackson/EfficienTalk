@@ -1,5 +1,9 @@
 package app;
 
+import app.factories.ConnectUseCaseFactory;
+import app.factories.LoggedInUseCaseFactory;
+import app.factories.LoginUseCaseFactory;
+import app.factories.SignupUseCaseFactory;
 import data_access.FileGroupDataAccessObject;
 import data_access.FileSaveDataAccessObject;
 import data_access.FileSummayDataAccessObject;
@@ -19,7 +23,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-import java.util.Arrays;
 public class ClientApp {
 
     public static void main(String[] args) throws IOException {

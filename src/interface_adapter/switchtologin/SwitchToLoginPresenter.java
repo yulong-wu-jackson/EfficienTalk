@@ -21,6 +21,7 @@ public class SwitchToLoginPresenter implements SwitchToLoginOutputBoundary {
     }
     public void prepareSuccessView() {
         LoginState loginState = loginViewModel.getState();
+        loginState.setSocket(signupViewModel.getState().getSocket());
         this.loginViewModel.setState(loginState);
         this.loginViewModel.firePropertyChanged();
 

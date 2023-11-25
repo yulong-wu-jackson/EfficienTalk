@@ -1,4 +1,4 @@
-package app;
+package app.factories;
 
 import data_access.FileGroupDataAccessObject;
 import entity.CommonGroupFactory;

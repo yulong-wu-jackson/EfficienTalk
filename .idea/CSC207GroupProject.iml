@@ -15,5 +15,6 @@
     <orderEntry type="library" name="javax.mail" level="project" />
     <orderEntry type="library" name="javax.mail" level="project" />
     <orderEntry type="library" name="json-20210307" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>
