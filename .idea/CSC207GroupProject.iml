@@ -8,9 +8,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="json" level="project" />
+    <orderEntry type="library" name="squareup.okhttp3.logging.interceptor" level="project" />
+    <orderEntry type="library" name="eclipse.ecf.apache.httpcomponents.httpclient" level="project" />
     <orderEntry type="library" name="activation-1.1.1" level="project" />
-    <orderEntry type="library" name="javax.mail (1) (2)" level="project" />
-    <orderEntry type="library" name="javax.mail" level="project" />
     <orderEntry type="library" name="javax.mail" level="project" />
   </component>
 </module>

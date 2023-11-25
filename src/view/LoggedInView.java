@@ -3,10 +3,12 @@ package view;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.logout.LogoutController;
+import interface_adapter.save.SaveController;
+import interface_adapter.send_message.SendMessageController;
+import interface_adapter.summary.SummaryController;
 import interface_adapter.notify.NotifyController;
 import interface_adapter.notify.NotifyState;
 import interface_adapter.notify.NotifyViewModel;
-import interface_adapter.send_message.SendMessageController;
 import interface_adapter.translate.TranslateController;
 
 
@@ -28,6 +30,11 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final NotifyViewModel notifyViewModel;
     private final LogoutController logoutController;
     private final SendMessageController sendMessageController;
+
+    private final SummaryController summaryController;
+
+    private final SaveController saveController;
+
     private final TranslateController translateController;
 
     private final NotifyController notifyController;
@@ -38,24 +45,32 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     final JTextField messageInputField = new JTextField(30);
     final JButton send;
     final JButton notify;
-
     final JButton logOut;
+    final JButton summary;
+    final JButton save;
+
     final JCheckBox translate;
+
     public static JTextArea textArea;
     static Socket socket = null;
 
     /**
      * A window with a title and a JButton.
      */
-
     public LoggedInView(LoggedInViewModel loggedInViewModel, NotifyViewModel notifyViewModel, LogoutController logoutController,
-                        SendMessageController sendMessageController, TranslateController translateController, NotifyController notifyController) {
+                        SendMessageController sendMessageController, 
+                        TranslateController translateController, NotifyController notifyController, 
+                        SummaryController summaryController, SaveController saveController) {
 
         this.loggedInViewModel = loggedInViewModel;
         this.logoutController = logoutController;
         this.sendMessageController = sendMessageController;
         this.notifyController = notifyController;
+        this.summaryController = summaryController;
+        this.saveController = saveController;
+
         this.loggedInViewModel.addPropertyChangeListener(this);
+        LoggedInView self = this;
 
         this.notifyViewModel = notifyViewModel;
         this.notifyViewModel.addPropertyChangeListener(this);
@@ -94,7 +109,13 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         buttons.add(notify);
         logOut = new JButton(loggedInViewModel.LOGOUT_BUTTON_LABEL);
         buttons.add(logOut);
+        summary = new JButton(loggedInViewModel.SUMMARY_BUTTON_LABEL);
+        buttons.add(summary);
+        save = new JButton(loggedInViewModel.SAVE_BUTTON_LABEL);
+        buttons.add(save);
+
         translate = new JCheckBox(loggedInViewModel.TRANSLATE_CHECK_BOX_LABEL);
+
 
 
         textArea.append("Welcome to the chat room!\n");
@@ -150,7 +171,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
                             // TODO: send notification to group
                             // notifyController.execute();
-
                             // after client sent notification, clear the message input field
                             messageInputField.setText("");
                             currentState = loggedInViewModel.getState();
@@ -172,6 +192,35 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 }
         );
 
+
+        summary.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(summary)) {
+                            String groupMessage = textArea.getText();
+                            String summary = summaryController.getSummary(groupMessage);
+                            summaryController.saveSummary(summary);
+                            JOptionPane.showMessageDialog(self, summary);
+                        }
+                    }
+                }
+        );
+
+        save.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(save)) {
+                            String groupMessage = textArea.getText();
+                            String savedMessage = saveController.getMessage(groupMessage);
+                            saveController.saveMessage(savedMessage);
+                            JOptionPane.showMessageDialog(self, "Dialogues have been saved!");
+                        }
+                    }
+                }
+        );
+      
         translate.addActionListener(
                 new ActionListener() {
                     @Override
@@ -198,7 +247,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 //        this.add(port);
         this.add(scrollPane);
         this.add(clientMessage);
-        this.add(buttons);    }
+        this.add(buttons);
+    }
 
     /**
      * React to a button click that results in evt.
@@ -241,7 +291,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             textArea.append("Please restart the application.\n");
         }
         state.setGroupMessage(textArea.getText());
-
+        loggedInViewModel.setState(state);
     }
         else if(newValue instanceof NotifyState) {
             JOptionPane.showMessageDialog(this, "Sent email successfully");

@@ -76,6 +76,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         clear.setFont(new Font(null, Font.BOLD, 15));
         buttons.add(clear);
         swithToLogin = new JButton(SignupViewModel.SWITCH_TO_LOGIN_BUTTON_LABEL);
+        swithToLogin.setFont(new Font(null, Font.BOLD, 15));
         buttons.add(swithToLogin);
 
         signUp.addActionListener(
@@ -115,7 +116,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                         if (e.getSource().equals(clear)) {
                             String usernames = clearController.getUsernames();
                             clearController.execute();
-                            JOptionPane.showMessageDialog(self, usernames);
+                            JOptionPane.showMessageDialog(self,
+                                    "These users have been cleared:\n" + usernames);
 
                         }
                     }
