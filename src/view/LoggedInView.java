@@ -6,6 +6,10 @@ import interface_adapter.logout.LogoutController;
 import interface_adapter.save.SaveController;
 import interface_adapter.send_message.SendMessageController;
 import interface_adapter.summary.SummaryController;
+import interface_adapter.notify.NotifyController;
+import interface_adapter.notify.NotifyState;
+import interface_adapter.notify.NotifyViewModel;
+import interface_adapter.translate.TranslateController;
 
 
 import javax.swing.*;
@@ -22,11 +26,18 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
     public final String viewName = "logged in";
     private final LoggedInViewModel loggedInViewModel;
+
+    private final NotifyViewModel notifyViewModel;
     private final LogoutController logoutController;
     private final SendMessageController sendMessageController;
+
     private final SummaryController summaryController;
 
     private final SaveController saveController;
+
+    private final TranslateController translateController;
+
+    private final NotifyController notifyController;
 
     JLabel username;
     JLabel address;
@@ -38,24 +49,36 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     final JButton summary;
     final JButton save;
 
+    final JCheckBox translate;
+
     public static JTextArea textArea;
     static Socket socket = null;
 
     /**
      * A window with a title and a JButton.
      */
-    public LoggedInView(LoggedInViewModel loggedInViewModel, LogoutController logoutController,
-                        SendMessageController sendMessageController,
+    public LoggedInView(LoggedInViewModel loggedInViewModel, NotifyViewModel notifyViewModel, LogoutController logoutController,
+                        SendMessageController sendMessageController, 
+                        TranslateController translateController, NotifyController notifyController, 
                         SummaryController summaryController, SaveController saveController) {
+
         this.loggedInViewModel = loggedInViewModel;
         this.logoutController = logoutController;
         this.sendMessageController = sendMessageController;
+        this.notifyController = notifyController;
         this.summaryController = summaryController;
         this.saveController = saveController;
+
         this.loggedInViewModel.addPropertyChangeListener(this);
         LoggedInView self = this;
 
-        JLabel title = new JLabel("Logged In Screen");
+        this.notifyViewModel = notifyViewModel;
+        this.notifyViewModel.addPropertyChangeListener(this);
+
+        this.translateController = translateController;
+
+
+        JLabel title = new JLabel("Chat Room");
         title.setFont(new Font(null, Font.BOLD, 18));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -91,6 +114,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         save = new JButton(loggedInViewModel.SAVE_BUTTON_LABEL);
         buttons.add(save);
 
+        translate = new JCheckBox(loggedInViewModel.TRANSLATE_CHECK_BOX_LABEL);
+
+
 
         textArea.append("Welcome to the chat room!\n");
 
@@ -112,7 +138,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             }
         });
 
-        send.setEnabled(false);
+
 
 
         send.addActionListener(
@@ -140,11 +166,14 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(notify)) {
+                            LoggedInState currentState = loggedInViewModel.getState();
+                            notifyController.execute(currentState.getClientMessage());
+
                             // TODO: send notification to group
                             // notifyController.execute();
                             // after client sent notification, clear the message input field
                             messageInputField.setText("");
-                            LoggedInState currentState = loggedInViewModel.getState();
+                            currentState = loggedInViewModel.getState();
                             currentState.setClientMessage(messageInputField.getText());
                             loggedInViewModel.setState(currentState);
                         }
@@ -162,6 +191,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     }
                 }
         );
+
 
         summary.addActionListener(
                 new ActionListener() {
@@ -190,6 +220,21 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     }
                 }
         );
+      
+        translate.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (translate.isSelected()) {
+                            LoggedInState loggedInState = loggedInViewModel.getState();
+                            loggedInState.setGroupMessage(textArea.getText());
+                            translateController.execute(scrollPane, loggedInState);
+                        } else {
+                            scrollPane.setViewportView(textArea);
+                        }
+                    }
+                }
+        );
 
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -197,8 +242,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.add(title);
         this.add(usernameInfo);
         this.add(username);
-        this.add(address);
-        this.add(port);
+
+//        this.add(address);
+//        this.add(port);
         this.add(scrollPane);
         this.add(clientMessage);
         this.add(buttons);
@@ -211,16 +257,44 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         System.out.println("Click " + evt.getActionCommand());
     }
 
+//    @Override
+//    public void propertyChange(PropertyChangeEvent evt) {
+//
+//        LoggedInState state = (LoggedInState) evt.getNewValue();
+//        username.setText("User Name: " + state.getUsername());
+//        address.setText("IP: " + state.getIpAddress());
+//        port.setText("port: " + state.getPort());
+//        if (state.getSocket() == null) {
+//            send.setEnabled(false);
+//            notify.setEnabled(false);
+//            textArea.append("Cannot connect to server.\n");
+//            textArea.append("Please restart the application.\n");
+//        }
+//        state.setGroupMessage(textArea.getText());
+//
+//
+//
+//}
+
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        LoggedInState state = (LoggedInState) evt.getNewValue();
-        username.setText("User Name: " + state.getUsername());
-        address.setText("IP: " + state.getIpAddress());
-        port.setText("port: " + state.getPort());
-        if (state.getSocket() != null) {
-            send.setEnabled(true);
+    public void propertyChange(PropertyChangeEvent evt){
+        Object newValue = evt.getNewValue();
+        if (newValue instanceof LoggedInState) {
+            LoggedInState state = (LoggedInState) newValue;
+            username.setText("User Name: " + state.getUsername());
+            address.setText("IP: " + state.getIpAddress());
+            port.setText("port: " + state.getPort());
+            if (state.getSocket() == null) {
+            send.setEnabled(false);
+            notify.setEnabled(false);
+            textArea.append("Cannot connect to server.\n");
+            textArea.append("Please restart the application.\n");
         }
         state.setGroupMessage(textArea.getText());
         loggedInViewModel.setState(state);
     }
+        else if(newValue instanceof NotifyState) {
+            JOptionPane.showMessageDialog(this, "Sent email successfully");
+        }
+        }
 }

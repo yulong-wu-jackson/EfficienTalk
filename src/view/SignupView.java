@@ -50,6 +50,11 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         title.setFont(new Font(null, Font.BOLD, 18));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        JLabel blankLabel = new JLabel(" ");
+        blankLabel.setFont(title.getFont().deriveFont(18.0f));
+        JLabel blankLabel2 = new JLabel(" ");
+        blankLabel2.setFont(title.getFont().deriveFont(18.0f));
+
         LabelTextPanel usernameInfo = new LabelTextPanel(
                 new JLabel(SignupViewModel.USERNAME_LABEL), usernameInputField);
         LabelTextPanel passwordInfo = new LabelTextPanel(
@@ -217,7 +222,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+        this.add(blankLabel);
         this.add(title);
+        this.add(blankLabel2);
         this.add(usernameInfo);
         this.add(passwordInfo);
         this.add(repeatPasswordInfo);

@@ -7,6 +7,7 @@ import use_case.clear_users.ClearUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 import use_case.summary.SummaryUserDataAccessInterface;
+import use_case.notify.NotifyUserDataAccessInterface;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -18,7 +19,9 @@ import java.util.Map;
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         ClearUserDataAccessInterface,
         LoginUserDataAccessInterface,
-        SummaryUserDataAccessInterface {
+        SummaryUserDataAccessInterface, 
+        LoginUserDataAccessInterface, 
+        NotifyUserDataAccessInterface {
 
     private final File csvFile;
 
@@ -117,6 +120,16 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         accounts.clear();
         this.save();
     }
+
+    @Override
+    public ArrayList<String> getUserEmails() {
+        ArrayList<String> useremails = new ArrayList<>();
+        for (User user : accounts.values()) {
+            useremails.add(user.getEmail());
+        }
+        return useremails;
+    }
+
     public ArrayList<String> getUsernames() {
         ArrayList<String> usernames = new ArrayList<>();
         for (User user : accounts.values()) {

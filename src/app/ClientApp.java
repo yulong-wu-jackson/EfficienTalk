@@ -7,8 +7,10 @@ import data_access.FileUserDataAccessObject;
 import entity.CommonGroupFactory;
 import entity.CommonUserFactory;
 import interface_adapter.clear_users.ClearViewModel;
+import interface_adapter.connect.ConnectViewModel;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logged_in.LoggedInViewModel;
+import interface_adapter.notify.NotifyViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.ViewManagerModel;
 import view.*;
@@ -68,6 +70,8 @@ public class ClientApp {
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
         ClearViewModel clearViewModel = new ClearViewModel();
+        ConnectViewModel connectViewModel = new ConnectViewModel();
+        NotifyViewModel notifyViewModel = new NotifyViewModel();
 
         FileUserDataAccessObject userDataAccessObject;
         try {
@@ -98,10 +102,14 @@ public class ClientApp {
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = LoggedInUseCaseFactory.create(viewManagerModel, loginViewModel,
-                loggedInViewModel, userDataAccessObject, summaryUserDataAccessObject, saveUserDataAccessObject);
+                loggedInViewModel, userDataAccessObject, summaryUserDataAccessObject, saveUserDataAccessObject, notifyViewModel, userDataAccessObject, userDataAccessObject);
+
         views.add(loggedInView, loggedInView.viewName);
 
-        viewManagerModel.setActiveView(signupView.viewName);
+        ConnectView connectView = ConnectUseCaseFactory.create(viewManagerModel, connectViewModel, signupViewModel);
+        views.add(connectView, connectView.viewName);
+
+        viewManagerModel.setActiveView(connectView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.setPreferredSize(new Dimension(550, 400));

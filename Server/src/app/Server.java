@@ -40,6 +40,9 @@ public class Server {
     class ClientHandler implements Runnable{
         Socket socket;
         String host;
+        InputStream inputStream;
+        OutputStream outputStream;
+        PrintWriter printWriter;
         public ClientHandler(Socket socket){
             this.socket = socket;
             this.host = socket.getInetAddress().getHostAddress();
@@ -48,16 +51,16 @@ public class Server {
         public void run(){
             try {
                 // get data (stream of bytes) from client
-                InputStream inputStream = socket.getInputStream();
+                inputStream = socket.getInputStream();
 
                 // convert bytes to string (utf-8)
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-                OutputStream outputStream = socket.getOutputStream();
+                outputStream = socket.getOutputStream();
                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "utf-8");
                 BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
-                PrintWriter printWriter = new PrintWriter(bufferedWriter, true);
+                printWriter = new PrintWriter(bufferedWriter, true);
                 // store the printWriter of this client
                 printWriters.add(printWriter);
 
@@ -67,6 +70,7 @@ public class Server {
                 Scanner scanner = new Scanner(System.in);
 
                 while(true){
+
                     // receive message from client
                     String line = bufferedReader.readLine();
                     System.out.println("Client " + host + " said: " + line);
@@ -83,7 +87,19 @@ public class Server {
                 }
             }
             catch (IOException e) {
-                throw new RuntimeException(e);
+                try {
+                    // if client disconnect, the server release the resource
+                    inputStream.close();
+                    outputStream.close();
+                    socket.close();
+
+
+                    System.out.println("Client " + host + " disconnected!");
+                    printWriters.remove(printWriter);
+                    System.out.println("Current online Client number: " + printWriters.size());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
 
         }
