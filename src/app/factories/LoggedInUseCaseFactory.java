@@ -1,4 +1,4 @@
-package app;
+package app.factories;
 
 import entity.CommonUserFactory;
 import entity.UserFactory;
