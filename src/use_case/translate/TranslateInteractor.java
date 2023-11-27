@@ -23,14 +23,18 @@ public class TranslateInteractor implements TranslateInputBoundary{
         TransApi api = new TransApi(apiTokens.getAPP_ID(), apiTokens.getSECURITY_KEY());
         String translated = api.getTransResult(message, "zh", "en");
         String key = "\"dst\":\"";
-        int startIndex = 0;
         String result = "";
-        while ((startIndex = translated.indexOf(key, startIndex)) != -1) {
-            startIndex += key.length();
+        SubstringIterator iterator = new KeySubstringIterator(translated, key);
+        while (iterator.hasNext()) {
+            result = (iterator.next());
+        }
+        //int startIndex = 0;
+/*       while ((startIndex = translated.indexOf(key, startIndex)) != -1) {
+           startIndex += key.length();
             int endIndex = translated.indexOf("\"", startIndex);
             result += translated.substring(startIndex, endIndex) + "\n";
             startIndex = endIndex;
-        }
+        }*/
         loggedInState.setGroupMessageTranslated(result);
         JTextArea translatedTextArea = new JTextArea();
         translatedTextArea.setLineWrap(true);
