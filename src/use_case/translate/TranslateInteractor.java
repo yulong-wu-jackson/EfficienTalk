@@ -6,6 +6,7 @@ import interface_adapter.logged_in.LoggedInState;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Iterator;
 
 public class TranslateInteractor implements TranslateInputBoundary{
     final TranslateOutputBoundary translatePresenter;
@@ -24,9 +25,9 @@ public class TranslateInteractor implements TranslateInputBoundary{
         String translated = api.getTransResult(message, "zh", "en");
         String key = "\"dst\":\"";
         String result = "";
-        SubstringIterator iterator = new KeySubstringIterator(translated, key);
-        while (iterator.hasNext()) {
-            result = (iterator.next());
+        SubstringIterable iterable = new SubstringIterable(translated, key);
+        for (String s : iterable) {
+            result = s;
         }
         //int startIndex = 0;
 /*       while ((startIndex = translated.indexOf(key, startIndex)) != -1) {
