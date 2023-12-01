@@ -1,9 +1,5 @@
 package use_case.connect;
 
-import use_case.login.LoginOutputData;
-import view.LoggedInView;
-import view.ServerHandler;
-
 import javax.swing.*;
 import java.net.Socket;
 

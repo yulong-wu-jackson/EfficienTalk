@@ -4,7 +4,7 @@ public class ApiTokens {
 
     private final String APP_ID = "20231116001882325";
     private final String SECURITY_KEY = "swPsLB6jBrArqiDF56uJ";
-    private static final String OPAI_TOKEN = "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";
+    private static final String OPAI_TOKEN = "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";
 
     public String getAPP_ID() {return APP_ID;}
 
