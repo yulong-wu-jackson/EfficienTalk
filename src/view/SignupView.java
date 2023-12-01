@@ -31,7 +31,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     private final SwitchToLoginController switchToLoginController;
 
     private final JButton signUp;
-    private final JButton cancel;
+    //private final JButton cancel;
     private final JButton clear;
     private final JButton swithToLogin;
 
@@ -69,9 +69,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         signUp = new JButton(SignupViewModel.SIGNUP_BUTTON_LABEL);
         signUp.setFont(new Font(null, Font.BOLD, 15));
         buttons.add(signUp);
-        cancel = new JButton(SignupViewModel.CANCEL_BUTTON_LABEL);
-        cancel.setFont(new Font(null, Font.BOLD, 15));
-        buttons.add(cancel);
+        //cancel = new JButton(SignupViewModel.CANCEL_BUTTON_LABEL);
+        //cancel.setFont(new Font(null, Font.BOLD, 15));
+        //buttons.add(cancel);
         clear = new JButton(SignupViewModel.CLEAR_BUTTON_LABEL);
         clear.setFont(new Font(null, Font.BOLD, 15));
         buttons.add(clear);
@@ -114,17 +114,14 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(clear)) {
-                            String usernames = clearController.getUsernames();
                             clearController.execute();
-                            JOptionPane.showMessageDialog(self,
-                                    "These users have been cleared:\n" + usernames);
 
                         }
                     }
                 }
         );
 
-        cancel.addActionListener(this);
+        //cancel.addActionListener(this);
 
         // This makes a new KeyListener implementing class, instantiates it, and
         // makes it listen to keystrokes in the usernameInputField.
@@ -236,7 +233,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
      * React to a button click that results in evt.
      */
     public void actionPerformed(ActionEvent evt) {
-        JOptionPane.showConfirmDialog(this, "Cancel not implemented yet.");
+        System.out.println(evt.getActionCommand() + " performed");
     }
 
     @Override

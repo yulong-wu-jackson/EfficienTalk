@@ -13,6 +13,7 @@ import view.LoginView;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Field;
 
@@ -29,6 +30,8 @@ public class LoginViewTest {
     private JTextField groupInputField;
     private JTextField ipAdressInputField;
     private JTextField portInputField;
+    private JButton logIn;
+    private JButton switchToSignUp;
 
     @Before
     public void setUp() {
@@ -64,6 +67,8 @@ public class LoginViewTest {
             groupInputField = getField(loginView, "groupInputField");
             ipAdressInputField = getField(loginView, "ipAdressInputField");
             portInputField = getField(loginView, "portInputField");
+            logIn = getField(loginView, "logIn");
+            switchToSignUp = getField(loginView, "switchToSignUp");
         } catch (NoSuchFieldException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
@@ -96,6 +101,10 @@ public class LoginViewTest {
         assertEquals("testUser", currentState.getUsername());
         assertEquals("testPass", currentState.getPassword());
         assertEquals("testGroup", currentState.getGroupname());
+        logIn.doClick();
+        switchToSignUp.doClick();
+        ActionEvent actionEvent = new ActionEvent(logIn, 0, "action");
+        loginView.actionPerformed(actionEvent);
 
     }
 
@@ -107,7 +116,15 @@ public class LoginViewTest {
             KeyEvent keyEvent = new KeyEvent(
                     component, KeyEvent.KEY_TYPED, System.currentTimeMillis(), 0, KeyEvent.VK_UNDEFINED, c
             );
+            KeyEvent keyEvent2 = new KeyEvent(
+                    component, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_UNDEFINED, c
+            );
+            KeyEvent keyEvent3 = new KeyEvent(
+                    component, KeyEvent.KEY_RELEASED, System.currentTimeMillis(), 0, KeyEvent.VK_UNDEFINED, c
+            );
             component.dispatchEvent(keyEvent);
+            component.dispatchEvent(keyEvent2);
+            component.dispatchEvent(keyEvent3);
             // Pause to simulate natural typing speed
             sleep(50);
         }

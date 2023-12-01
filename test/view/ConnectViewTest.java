@@ -11,6 +11,7 @@ import view.ConnectView;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Field;
 
@@ -23,6 +24,7 @@ public class ConnectViewTest {
     private ConnectView connectView;
     private JTextField ipAdressInputField;
     private JTextField portInputField;
+    private JButton connectButton;
 
     @Before
     public void setUp() throws NoSuchFieldException, IllegalAccessException {
@@ -45,6 +47,7 @@ public class ConnectViewTest {
         // Access private fields using reflection
         ipAdressInputField = getField(connectView, "ipAdressInputField");
         portInputField = getField(connectView, "portInputField");
+        connectButton = getField(connectView, "connectButton");
     }
 
     @SuppressWarnings("unchecked")
@@ -68,6 +71,9 @@ public class ConnectViewTest {
         ConnectState currentState = connectViewModel.getState();
         assertEquals("192.168.1.1", currentState.getIpAddress());
         assertEquals("8080", currentState.getPort());
+        connectButton.doClick();
+        ActionEvent actionEvent = new ActionEvent(connectButton, 0, "action");
+        connectView.actionPerformed(actionEvent);
     }
 
     private void simulateTyping(JTextComponent component, String text) throws InterruptedException {
@@ -77,7 +83,15 @@ public class ConnectViewTest {
             KeyEvent keyEvent = new KeyEvent(
                     component, KeyEvent.KEY_TYPED, System.currentTimeMillis(), 0, KeyEvent.VK_UNDEFINED, c
             );
+            KeyEvent keyEvent2 = new KeyEvent(
+                    component, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_UNDEFINED, c
+            );
+            KeyEvent keyEvent3 = new KeyEvent(
+                    component, KeyEvent.KEY_RELEASED, System.currentTimeMillis(), 0, KeyEvent.VK_UNDEFINED, c
+            );
             component.dispatchEvent(keyEvent);
+            component.dispatchEvent(keyEvent2);
+            component.dispatchEvent(keyEvent3);
             sleep(50);
         }
     }

@@ -13,12 +13,4 @@ public class ClearController {
     public void execute(){
         userClearUseCaseInteractor.execute();
     }
-    public String getUsernames(){
-        ArrayList<String> usernames = userClearUseCaseInteractor.getUsernames();
-        String usernamesString = "";
-        for (String username : usernames) {
-            usernamesString += username + "\n";
-        }
-        return usernamesString;
-    }
 }
