@@ -131,7 +131,11 @@ public class LoggedInViewTest {
         // ... Add assertions to verify expected behavior after sending the message
 
         // Test other buttons and interactions similarly
-        // ...
+        notifyButton.doClick();
+        logOutButton.doClick();
+        summaryButton.doClick();
+        saveButton.doClick();
+        translateCheckBox.doClick();
     }
 
     private void simulateTyping(JTextComponent component, String text) throws InterruptedException {
