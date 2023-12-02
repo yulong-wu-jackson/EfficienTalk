@@ -1,5 +1,6 @@
 package view;
 
+import app.help.SimulateTyping;
 import org.junit.Before;
 import org.junit.Test;
 import interface_adapter.logged_in.LoggedInViewModel;
@@ -24,6 +25,7 @@ import use_case.translate.TranslateInputData;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Field;
 import java.net.Socket;
@@ -123,7 +125,7 @@ public class LoggedInViewTest {
     @Test
     public void testMessageSending() throws InterruptedException {
         // Simulate typing in the message input field
-        simulateTyping(messageInputField, "Hello, world!");
+        SimulateTyping.simulateTyping(messageInputField, "Hello, world!");
         assertEquals("Hello, world!", messageInputField.getText());
 
         // Simulate button click
@@ -136,17 +138,9 @@ public class LoggedInViewTest {
         summaryButton.doClick();
         saveButton.doClick();
         translateCheckBox.doClick();
+        ActionEvent actionEvent = new ActionEvent(translateCheckBox, 1, "pressed");
+        loggedInView.actionPerformed(actionEvent);
     }
 
-    private void simulateTyping(JTextComponent component, String text) throws InterruptedException {
-        for (char c : text.toCharArray()) {
-            component.setCaretPosition(component.getDocument().getLength());
-            KeyEvent keyEvent = new KeyEvent(
-                    component, KeyEvent.KEY_TYPED, System.currentTimeMillis(), 0, KeyEvent.VK_UNDEFINED, c
-            );
-            component.dispatchEvent(keyEvent);
-            sleep(50);
-        }
-    }
 }
 
