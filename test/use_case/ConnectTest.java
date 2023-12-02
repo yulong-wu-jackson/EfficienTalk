@@ -1,4 +1,4 @@
-package use_case.connect;
+package use_case;
 
 import app.ClientApp;
 import app.help.SimulateTyping;
