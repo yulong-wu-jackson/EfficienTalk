@@ -29,7 +29,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     final JTextField portInputField = new JTextField(5);
 
     final JButton logIn;
-    final JButton cancel;
+    //final JButton cancel;
     final JButton switchToSignUp;
     private final LoginController loginController;
     private final SwitchToSignUpController switchToSignUpController;
@@ -66,9 +66,9 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         logIn = new JButton(loginViewModel.LOGIN_BUTTON_LABEL);
         logIn.setFont(new Font(null, Font.BOLD, 15));
         buttons.add(logIn);
-        cancel = new JButton(loginViewModel.CANCEL_BUTTON_LABEL);
-        cancel.setFont(new Font(null, Font.BOLD, 15));
-        buttons.add(cancel);
+        //cancel = new JButton(loginViewModel.CANCEL_BUTTON_LABEL);
+        //cancel.setFont(new Font(null, Font.BOLD, 15));
+        //buttons.add(cancel);
         // TODO: add SwitchToSignUp button (DONE)
         switchToSignUp = new JButton(loginViewModel.SWITCH_SIGNUP_BUTTON_LABEL);
         switchToSignUp.setFont(new Font(null, Font.BOLD, 15));
@@ -109,7 +109,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 }
         );
 
-        cancel.addActionListener(this);
+        //cancel.addActionListener(this);
 
         switchToSignUp.addActionListener(
                 new ActionListener() {
@@ -188,39 +188,39 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
             }
         });
 
-        ipAdressInputField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                LoginState currentState = loginViewModel.getState();
-                currentState.setIpAddress(ipAdressInputField.getText() + e.getKeyChar());
-                loginViewModel.setState(currentState);
-            }
+//        ipAdressInputField.addKeyListener(new KeyListener() {
+//            @Override
+//            public void keyTyped(KeyEvent e) {
+//                LoginState currentState = loginViewModel.getState();
+//                currentState.setIpAddress(ipAdressInputField.getText() + e.getKeyChar());
+//                loginViewModel.setState(currentState);
+//            }
+//
+//            @Override
+//            public void keyPressed(KeyEvent e) {
+//            }
+//
+//            @Override
+//            public void keyReleased(KeyEvent e) {
+//            }
+//        });
 
-            @Override
-            public void keyPressed(KeyEvent e) {
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-            }
-        });
-
-        portInputField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                LoginState currentState = loginViewModel.getState();
-                currentState.setPort(portInputField.getText() + e.getKeyChar());
-                loginViewModel.setState(currentState);
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-            }
-        });
+//        portInputField.addKeyListener(new KeyListener() {
+//            @Override
+//            public void keyTyped(KeyEvent e) {
+//                LoginState currentState = loginViewModel.getState();
+//                currentState.setPort(portInputField.getText() + e.getKeyChar());
+//                loginViewModel.setState(currentState);
+//            }
+//
+//            @Override
+//            public void keyPressed(KeyEvent e) {
+//            }
+//
+//            @Override
+//            public void keyReleased(KeyEvent e) {
+//            }
+//        });
 
         this.add(blankLabel);
         this.add(title);
