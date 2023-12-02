@@ -94,10 +94,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         }
     }
 
-    public ArrayList get_users(){
-        ArrayList<String> users = new ArrayList<>(this.accounts.keySet());
-        return users;
-    }
     public void delete() {
 
         this.accounts.clear();

@@ -80,7 +80,7 @@ public class SimpleServer {
 
                 Scanner scanner = new Scanner(System.in);
 
-                while(true){
+                while(!socket.isClosed()){
 
                     // receive message from client
                     String line = bufferedReader.readLine();
@@ -96,6 +96,8 @@ public class SimpleServer {
 //                    String message = scanner.nextLine();
 //                    printWriter.println("Server said: " + message);
                 }
+                inputStream.close();
+                outputStream.close();
             }
             catch (IOException e) {
                 try {
@@ -114,14 +116,5 @@ public class SimpleServer {
             }
 
         }
-    }
-
-    public static void main(String[] args){
-        // ------   TODO: Constructing Socket Programming PART   ------
-//        SimpleServer server = new SimpleServer();
-//        System.out.println("port is available");
-//
-//        server.start();
-        // ------   TODO: Constructing Socket Programming PART   ------
     }
 }
