@@ -2,6 +2,10 @@ package use_case;
 
 import data_access.FileUserDataAccessObject;
 import entity.CommonUserFactory;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import use_case.signup.SignupInputData;
 import use_case.signup.SignupOutputData;
 import use_case.signup.SignupInputBoundary;
@@ -16,14 +20,23 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+import static java.lang.Thread.sleep;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SignupInteractorTest {
+    private SignupUserDataAccessInterface userRepository;
+    @BeforeEach
+    public void setUp() throws IOException, InterruptedException {
+        userRepository = new FileUserDataAccessObject("./testusers.csv", new CommonUserFactory());
+        UserFactory factory = new CommonUserFactory();
+        User user = factory.create("Declan", "12",  "pangtl@126.com");
+        userRepository.save(user);
+    }
 
     @Test
     void successTest() throws IOException {
+        userRepository.delete();
         SignupInputData inputData = new SignupInputData("Declan", "12", "12","pangtl@126.com");
-        SignupUserDataAccessInterface userRepository = new FileUserDataAccessObject("./users.csv", new CommonUserFactory());
 
         // This creates a successPresenter that tests whether the test case is as we expect.
         SignupOutputBoundary successPresenter = new SignupOutputBoundary() {
@@ -46,8 +59,8 @@ class SignupInteractorTest {
 
     @Test
     void failurePasswordMismatchTest() throws IOException {
+        userRepository.delete();
         SignupInputData inputData = new SignupInputData("Declan", "12", "3","p");
-        SignupUserDataAccessInterface userRepository = new FileUserDataAccessObject("./users.csv", new CommonUserFactory());
 
         // This creates a presenter that tests whether the test case is as we expect.
         SignupOutputBoundary failurePresenter = new SignupOutputBoundary() {
@@ -70,12 +83,8 @@ class SignupInteractorTest {
     @Test
     void failureUserExistsTest() throws IOException {
         SignupInputData inputData = new SignupInputData("Declan", "1", "1","a");
-        SignupUserDataAccessInterface userRepository = new FileUserDataAccessObject("./users.csv", new CommonUserFactory());;
 
-        // Add Declan to the repo so that when we check later they already exist
-        UserFactory factory = new CommonUserFactory();
-        User user = factory.create("Declan", "000",  "a");
-        userRepository.save(user);
+
 
         // This creates a presenter that tests whether the test case is as we expect.
         SignupOutputBoundary failurePresenter = new SignupOutputBoundary() {
@@ -93,5 +102,10 @@ class SignupInteractorTest {
 
         SignupInputBoundary interactor = new SignupInteractor(userRepository, failurePresenter, new CommonUserFactory());
         interactor.execute(inputData);
+    }
+
+    @AfterEach
+    public void tearDown() throws IOException {
+        userRepository.delete();
     }
 }

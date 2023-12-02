@@ -4,6 +4,4 @@ import java.util.ArrayList;
 
 public interface ClearInputBoundary {
     void execute();
-
-    ArrayList<String> getUsernames();
 }

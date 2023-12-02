@@ -1,4 +1,4 @@
-package app;
+package app.help;
 import app.help.OpenAISummaryAPI;
 public class openaiSummaryExample {
     public static void main(String[] args) {
