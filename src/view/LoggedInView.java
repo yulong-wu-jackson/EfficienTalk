@@ -132,6 +132,15 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
             @Override
             public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    LoggedInState currentState = loggedInViewModel.getState();
+                    sendMessageController.execute(currentState.getUsername() + " : " +
+                            currentState.getClientMessage(), currentState.getSocket());
+                    messageInputField.setText("");
+                    currentState = loggedInViewModel.getState();
+                    currentState.setClientMessage(messageInputField.getText());
+                    loggedInViewModel.setState(currentState);
+                }
             }
 
             @Override
