@@ -1,13 +1,12 @@
 package interface_adapter.login;
 
-import app.ClientApp;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import use_case.login.LoginOutputBoundary;
 import use_case.login.LoginOutputData;
 import view.LoggedInView;
-import view.ServerHandler;
+import app.help.ServerHandler;
 
 import javax.swing.*;
 import java.net.Socket;

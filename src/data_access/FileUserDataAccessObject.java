@@ -94,10 +94,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         }
     }
 
-    public ArrayList get_users(){
-        ArrayList<String> users = new ArrayList<>(this.accounts.keySet());
-        return users;
-    }
     public void delete() {
 
         this.accounts.clear();
@@ -136,6 +132,18 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         }
         return usernames;
     }
+
+    @Override
+    public Map<String, String> getUsersAndEmails() {
+        Map<String, String> userEmail = new HashMap<>();
+        for (User user : accounts.values()) {
+            userEmail.put(user.getEmail(), user.getName());
+        }
+        return userEmail;
+    }
+
+
+
     public static void saveStringToFile(String content, String filePath) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(content);

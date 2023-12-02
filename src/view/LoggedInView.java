@@ -21,6 +21,7 @@ import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class LoggedInView extends JPanel implements ActionListener, PropertyChangeListener {
 
@@ -201,7 +202,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                             String groupMessage = textArea.getText();
                             String summary = summaryController.getSummary(groupMessage);
                             summaryController.saveSummary(summary);
-                            JOptionPane.showMessageDialog(self, summary);
+                            //JOptionPane.showMessageDialog(self, summary);
                         }
                     }
                 }
@@ -215,7 +216,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                             String groupMessage = textArea.getText();
                             String savedMessage = saveController.getMessage(groupMessage);
                             saveController.saveMessage(savedMessage);
-                            JOptionPane.showMessageDialog(self, "Dialogues have been saved!");
+                            //JOptionPane.showMessageDialog(self, "Dialogues have been saved!");
                         }
                     }
                 }
@@ -277,7 +278,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 //}
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt){
+    public void propertyChange(PropertyChangeEvent evt) {
         Object newValue = evt.getNewValue();
         if (newValue instanceof LoggedInState) {
             LoggedInState state = (LoggedInState) newValue;
@@ -285,16 +286,25 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             address.setText("IP: " + state.getIpAddress());
             port.setText("port: " + state.getPort());
             if (state.getSocket() == null) {
-            send.setEnabled(false);
-            notify.setEnabled(false);
-            textArea.append("Cannot connect to server.\n");
-            textArea.append("Please restart the application.\n");
+                send.setEnabled(false);
+                notify.setEnabled(false);
+                textArea.append("Cannot connect to server.\n");
+                textArea.append("Please restart the application.\n");
+            }
+            state.setGroupMessage(textArea.getText());
+
+        } else if (newValue instanceof NotifyState) {
+            NotifyState state = (NotifyState) newValue;
+            if (state.notifyError() == false) {
+                JOptionPane.showMessageDialog(this, "Sent email successfully");
+            } else if (state.notifyError() == true) {
+                String errorMessage = "Failed sending email to the following users: \n";
+                ArrayList errorUsers = state.getErrorUsers(); // Assuming getErrorUsers() returns a List<String>
+                // Join the list of error users into a single string, each on a new line
+                String errorUsersList = String.join("\n", errorUsers);
+                errorMessage += errorUsersList;
+                JOptionPane.showMessageDialog(this, errorMessage);
+            }
         }
-        state.setGroupMessage(textArea.getText());
-        loggedInViewModel.setState(state);
     }
-        else if(newValue instanceof NotifyState) {
-            JOptionPane.showMessageDialog(this, "Sent email successfully");
-        }
-        }
 }

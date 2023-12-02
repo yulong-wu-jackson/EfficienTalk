@@ -8,6 +8,7 @@ import interface_adapter.signup.SignupViewModel;
 import use_case.clear_users.ClearOutputBoundary;
 import use_case.clear_users.ClearOutputData;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class ClearPresenter implements ClearOutputBoundary {
@@ -19,5 +20,12 @@ public class ClearPresenter implements ClearOutputBoundary {
     }
     public void prepareSuccessView(ClearOutputData clearOutputData) {
         System.out.println(clearOutputData.getUsernames());
+        ArrayList<String> usernames = clearOutputData.getUsernames();
+        String usernamesString = "";
+        for (String username : usernames) {
+            usernamesString += username + "\n";
+        }
+        JOptionPane.showMessageDialog(null,
+                "These users have been cleared:\n" + usernamesString);
     }
 }

@@ -1,13 +1,14 @@
 package use_case.notify;
-
+import java.util.ArrayList;
 public class NotifyOutputData {
-    final private String message;
 
-    public NotifyOutputData(String message) {
-        this.message = message;
+    final private ArrayList<String> users;
+
+    public NotifyOutputData( ArrayList<String> users) {
+        this.users = users;
     }
 
-    public String getMessage() {
-        return message;
+    public ArrayList getUsers() {
+        return users;
     }
 }

@@ -2,6 +2,7 @@ package use_case.notify;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -22,20 +23,32 @@ public class NotifyInteractor implements NotifyInputBoundary {
     @Override
     public void execute(NotifyInputData notifyInputData) {
         String message = notifyInputData.getMessage();
-        ArrayList<String> useremails = userDataAccessObject.getUserEmails();
-        //send message to the email address in the list Useremails
-        //System.out.println("reach");
-        for (String email : useremails) {
-            sendEmail(message, email);
-            //System.out.println("Email sent successfully.");
+        Map<String,String> userEmails = userDataAccessObject.getUsersAndEmails();
+
+        boolean isEmailSentSuccessfully = true;
+        ArrayList<String> errorUser = new ArrayList<>();
+        for (Map.Entry<String, String> entry : userEmails.entrySet()) {
+            String email = entry.getKey(); // This is the first component (the email)
+            String name = entry.getValue();
+            ;
+            boolean success = sendEmail(message, email);
+            if (!success) {
+                isEmailSentSuccessfully = false;
+                errorUser.add(name);
+                // Optionally, you can break the loop if one failure is enough to consider the whole operation failed
+                // break;
+
+            }
         }
-
-
-
-        notifyPresenter.prepareSuccessView();
+        NotifyOutputData notifyOutputData = new NotifyOutputData(errorUser);
+        if (isEmailSentSuccessfully) {
+            notifyPresenter.prepareSuccessView();
+        } else {
+            notifyPresenter.prepareFailedView(notifyOutputData);
+        }
     }
 
-    private static void sendEmail(String messageContent, String Email) {
+    private boolean sendEmail(String messageContent, String Email) {
         // SMTP server configuration
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.126.com");
@@ -57,8 +70,11 @@ public class NotifyInteractor implements NotifyInputBoundary {
             // Send the message
             Transport.send(message, "DeclanPang@126.com", "HLPKWQXIIJLOJFLQ"); // Your email and password
             System.out.println("Email sent successfully.");
+            return true;
         } catch (MessagingException mex) {
+            System.out.println("Email failed to sent");
             mex.printStackTrace();
+            return false;
         }
     }
 }
