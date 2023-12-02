@@ -5,6 +5,7 @@ import entity.User;
 import entity.UserFactory;
 import interface_adapter.notify.NotifyPresenter;
 import interface_adapter.notify.NotifyViewModel;
+import org.junit.jupiter.api.AfterEach;
 import use_case.notify.NotifyInputBoundary;
 import use_case.notify.NotifyOutputBoundary;
 import use_case.notify.NotifyUserDataAccessInterface;
@@ -58,8 +59,8 @@ class NotifyInteractorTest {
         // Execute the notification use case
         notifyInteractor.execute(inputData);
         assertTrue(success);
+        ((FileUserDataAccessObject) userRepository).delete();
 
-        // Assertions are done in the overridden methods of the presenter
     }
 
     @Test
@@ -88,5 +89,8 @@ class NotifyInteractorTest {
 
         NotifyInputData inputData = new NotifyInputData("Hello!");
         notifyInteractor.execute(inputData);
+        ((FileUserDataAccessObject) userRepository).delete();
     }
+
+
 }
