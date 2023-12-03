@@ -1,5 +1,6 @@
 package app.factories;
 
+import app.help.OpenAISummarizer;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
@@ -19,10 +20,6 @@ import interface_adapter.notify.NotifyViewModel;
 import interface_adapter.notify.NotifyController;
 import interface_adapter.notify.NotifyPresenter;
 
-import use_case.login.LoginInputBoundary;
-import use_case.login.LoginInteractor;
-import use_case.login.LoginOutputBoundary;
-
 import interface_adapter.translate.TranslateController;
 import interface_adapter.translate.TranslatePresenter;
 
@@ -39,7 +36,6 @@ import use_case.send_message.SendMessageInteractor;
 import use_case.send_message.SendMessageOutputBoundary;
 import use_case.summary.*;
 import view.LoggedInView;
-import view.LoginView;
 
 import use_case.notify.NotifyUserDataAccessInterface;
 import use_case.notify.NotifyInputBoundary;
@@ -49,8 +45,8 @@ import use_case.notify.NotifyOutputBoundary;
 import use_case.translate.TranslateInputBoundary;
 import use_case.translate.TranslateInteractor;
 import use_case.translate.TranslateOutputBoundary;
+import app.help.OpenAISummaryAPI;
 
-import view.LoggedInView;
 import javax.swing.*;
 import java.io.IOException;
 
@@ -70,7 +66,8 @@ public class LoggedInUseCaseFactory {
             NotifyUserDataAccessInterface userDAO2) {
 
         try {
-            LogoutController logoutController = createLogoutUseCase(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
+            LogoutController logoutController = createLogoutUseCase(viewManagerModel, loginViewModel, loggedInViewModel,
+                    userDataAccessObject);
             SendMessageController sendMessageController = createSendMessageUseCase();
             SummaryController summaryController = createSummaryUseCase(summaryUserDataAccessObject);
             SaveController saveController = createSaveUseCase(saveUserDataAccessObject);
@@ -111,7 +108,9 @@ public class LoggedInUseCaseFactory {
 
     private static SummaryController createSummaryUseCase(SummaryUserDataAccessInterface summaryUserDataAccessObject) {
         SummaryOutputBoundary summaryPresenter = new SummaryPresenter();
-        SummaryInputBoundary summaryInteractor = new SummaryInteractor(summaryUserDataAccessObject, summaryPresenter);
+        OpenAISummarizer openAISummarizer = new OpenAISummarizer();
+        SummaryInputBoundary summaryInteractor = new SummaryInteractor(summaryUserDataAccessObject,
+                summaryPresenter, openAISummarizer);
         return new SummaryController(summaryInteractor);
     }
 
@@ -121,7 +120,8 @@ public class LoggedInUseCaseFactory {
         return new SaveController(saveInteractor);
     }
 
-    private static NotifyController creatNotifyUseCase(NotifyViewModel notifyViewModel, NotifyUserDataAccessInterface userDataAccessObject){
+    private static NotifyController creatNotifyUseCase(NotifyViewModel notifyViewModel,
+                                                       NotifyUserDataAccessInterface userDataAccessObject){
 
         NotifyOutputBoundary notifyPresenter = new NotifyPresenter(notifyViewModel);
 

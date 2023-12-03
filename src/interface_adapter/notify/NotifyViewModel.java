@@ -3,7 +3,7 @@ import interface_adapter.ViewModel;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class NotifyViewModel extends ViewModel{
+public class    NotifyViewModel extends ViewModel{
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     private NotifyState state = new NotifyState();
 

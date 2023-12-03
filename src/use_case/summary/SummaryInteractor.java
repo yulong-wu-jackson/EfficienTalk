@@ -1,15 +1,16 @@
 package use_case.summary;
-import app.help.ApiTokens;
 import app.help.OpenAISummaryAPI;
-
 public class SummaryInteractor implements SummaryInputBoundary{
     final SummaryUserDataAccessInterface userDataAccessObject;
     final SummaryOutputBoundary userPresenter;
+    private final OpenAISummaryAPI openAISummaryAPI;
 
     public SummaryInteractor(SummaryUserDataAccessInterface summaryUserDataAccessInterface,
-                             SummaryOutputBoundary summaryOutputBoundary) {
+                             SummaryOutputBoundary summaryOutputBoundary,
+                             OpenAISummaryAPI openAISummaryAPI) {
         this.userDataAccessObject = summaryUserDataAccessInterface;
         this.userPresenter = summaryOutputBoundary;
+        this.openAISummaryAPI = openAISummaryAPI;
     }
 
     @Override
@@ -24,10 +25,7 @@ public class SummaryInteractor implements SummaryInputBoundary{
         StringBuilder builder = new StringBuilder(groupMessage);
         builder.delete(0,26);
         String modifiedGroupMessage = builder.toString();
-        String token = ApiTokens.getOPAI_TOKEN();
-        OpenAISummaryAPI summarizer =
-                new OpenAISummaryAPI(token);
-        String summary = summarizer.getSummary(modifiedGroupMessage);
+        String summary = openAISummaryAPI.getAiSummary(modifiedGroupMessage);
         return("Summary: " + summary);
     }
 }

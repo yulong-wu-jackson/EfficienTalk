@@ -1,4 +1,6 @@
 package use_case;
+import app.help.OpenAISummarizer;
+import app.help.OpenAISummaryAPI;
 import data_access.FileSummayDataAccessObject;
 import interface_adapter.summary.SummaryPresenter;
 import interface_adapter.summary.SummaryController;
@@ -24,15 +26,18 @@ public class SummaryTest {
     private FileSummayDataAccessObject fileSummaryDataAccessObject;
     private SummaryUserDataAccessInterface userDataAccessInterface;
     private SummaryPresenter outputBoundary;
-    private SummaryOutputData summaryOutputData;
+    private OpenAISummaryAPI openAISummaryAPI;
+    private OpenAISummarizer openAISummarizer;
 
     @BeforeEach
     public void setUp() {
         fileSummaryDataAccessObject = new FileSummayDataAccessObject();
+        openAISummarizer = new OpenAISummarizer();
+        openAISummaryAPI = openAISummarizer;
         summaryPresenter = new SummaryPresenter();
         outputBoundary = summaryPresenter; // Assigning SavePresenter instance to SaveOutputBoundary
         userDataAccessInterface = fileSummaryDataAccessObject;
-        summaryInteractor = new SummaryInteractor(userDataAccessInterface, outputBoundary);
+        summaryInteractor = new SummaryInteractor(userDataAccessInterface, outputBoundary, openAISummaryAPI);
         summaryController = new SummaryController(summaryInteractor);
     }
 
@@ -55,7 +60,7 @@ public class SummaryTest {
 
     @Test
     public void testSaveInteractor() {
-        SummaryInputData inputData = new SummaryInputData("Welcome to the chat room!\nTest");
+        SummaryInputData inputData = new SummaryInputData("Welcome to the chat room!\nTestTestTest");
         String outputData = summaryInteractor.getSummary(inputData);
         summaryInteractor.saveSummary(outputData);
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
