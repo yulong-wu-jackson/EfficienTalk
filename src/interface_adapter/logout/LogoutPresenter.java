@@ -25,4 +25,9 @@ public class LogoutPresenter implements LogoutOutputBoundary {
         this.viewManagerModel.setActiveView(loginViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
+
+    @Override
+    public void prepareFailView() {
+
+    }
 }
