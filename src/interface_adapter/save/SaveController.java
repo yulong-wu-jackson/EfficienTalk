@@ -8,7 +8,7 @@ public class SaveController {
     public SaveController(SaveInputBoundary saveInteractor) { this.saveInteractor = saveInteractor;}
 
     public void saveMessage(String savedMessage) {saveInteractor.saveMessage(savedMessage);}
-    public  String getMessage(String groupMessage) {
+    public String getMessage(String groupMessage) {
         try{
             SaveInputData saveInputData = new SaveInputData(groupMessage);
             return saveInteractor.getMessage(saveInputData);
