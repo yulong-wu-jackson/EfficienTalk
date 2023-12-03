@@ -30,7 +30,9 @@ public class OpenAISummaryAPI {
 
             // Create the JSON payload
             JSONArray messages = new JSONArray();
-            messages.put(new JSONObject().put("role", "system").put("content", "You are a helpful assistant who helps summarize dialogues."));
+            messages.put(new JSONObject().put("role", "system")
+                    .put("content",
+                            "You are a helpful assistant who helps summarize dialogues.Word limit in 100 words"));
             messages.put(new JSONObject().put("role", "user").put("content", text));
 
             JSONObject requestBody = new JSONObject();
