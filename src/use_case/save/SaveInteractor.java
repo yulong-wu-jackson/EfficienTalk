@@ -22,16 +22,11 @@ public class SaveInteractor implements SaveInputBoundary{
     }
 
     @Override
-    public String getMessage(SaveInputData saveInputData) throws Exception {
-        try {
-            String groupMessage = saveInputData.getGroupMessage();
-            StringBuilder builder = new StringBuilder(groupMessage);
-            builder.delete(0,26);
-            String modifiedGroupMessage = builder.toString();
-            return(modifiedGroupMessage);
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    public String getMessage(SaveInputData saveInputData) {
+        String groupMessage = saveInputData.getGroupMessage();
+        StringBuilder builder = new StringBuilder(groupMessage);
+        builder.delete(0,26);
+        String modifiedGroupMessage = builder.toString();
+        return(modifiedGroupMessage);
     }
 }

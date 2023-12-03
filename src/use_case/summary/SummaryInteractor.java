@@ -20,19 +20,14 @@ public class SummaryInteractor implements SummaryInputBoundary{
 
     @Override
     public String getSummary(SummaryInputData summaryInputData) {
-        try {
-            String groupMessage = summaryInputData.getGroupMessage();
-            StringBuilder builder = new StringBuilder(groupMessage);
-            builder.delete(0,26);
-            String modifiedGroupMessage = builder.toString();
-            String token = ApiTokens.getOPAI_TOKEN();
-            OpenAISummaryAPI summarizer =
-                    new OpenAISummaryAPI(token);
-            String summary = summarizer.getSummary(modifiedGroupMessage);
-            return("Summary: " + summary);
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        String groupMessage = summaryInputData.getGroupMessage();
+        StringBuilder builder = new StringBuilder(groupMessage);
+        builder.delete(0,26);
+        String modifiedGroupMessage = builder.toString();
+        String token = ApiTokens.getOPAI_TOKEN();
+        OpenAISummaryAPI summarizer =
+                new OpenAISummaryAPI(token);
+        String summary = summarizer.getSummary(modifiedGroupMessage);
+        return("Summary: " + summary);
     }
 }
