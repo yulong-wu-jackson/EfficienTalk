@@ -19,7 +19,6 @@ import java.util.Map;
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         ClearUserDataAccessInterface,
         LoginUserDataAccessInterface,
-        SummaryUserDataAccessInterface,
         NotifyUserDataAccessInterface {
 
     private final File csvFile;
@@ -153,17 +152,5 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         }
     }
 
-    @Override
-    public void saveSummary(String summary) {
-        String filePath = "summary.txt";
 
-        try {
-            saveStringToFile(summary, filePath);
-            System.out.println("Content saved to file: " + filePath);
-        } catch (IOException e) {
-            System.err.println("An error occurred while saving the file.");
-            e.printStackTrace();
-        }
-
-    }
 }

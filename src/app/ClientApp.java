@@ -4,6 +4,7 @@ import app.factories.ConnectUseCaseFactory;
 import app.factories.LoggedInUseCaseFactory;
 import app.factories.LoginUseCaseFactory;
 import app.factories.SignupUseCaseFactory;
+import app.help.OpenAISummaryAPI;
 import data_access.FileGroupDataAccessObject;
 import data_access.FileSaveDataAccessObject;
 import data_access.FileSummayDataAccessObject;
@@ -40,19 +41,12 @@ public class ClientApp {
         }
         UIManager.put("Button.background", Color.LIGHT_GRAY);
 
-
-        // try on appearance----------------
-
-
-
-
-
         // Build the main program window, the main panel containing the
         // various cards, and the layout, and stitch them together.
 
         // The main application window.
         JFrame application = new JFrame("EfficienTalk");
-        // TODO: remember to think of a name for our application!!!
+
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         CardLayout cardLayout = new CardLayout();
@@ -89,6 +83,7 @@ public class ClientApp {
         FileSaveDataAccessObject saveUserDataAccessObject;
         saveUserDataAccessObject = new FileSaveDataAccessObject();
 
+
         FileGroupDataAccessObject groupDataAccessObject;
         try {
             groupDataAccessObject = new FileGroupDataAccessObject("./groups.csv", new CommonGroupFactory());
@@ -105,8 +100,8 @@ public class ClientApp {
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = LoggedInUseCaseFactory.create(viewManagerModel, loginViewModel,
-                loggedInViewModel, userDataAccessObject, summaryUserDataAccessObject, saveUserDataAccessObject, notifyViewModel, userDataAccessObject);
-
+                loggedInViewModel, userDataAccessObject, summaryUserDataAccessObject,
+                saveUserDataAccessObject, notifyViewModel, userDataAccessObject);
         views.add(loggedInView, loggedInView.viewName);
 
         ConnectView connectView = ConnectUseCaseFactory.create(viewManagerModel, connectViewModel, signupViewModel);

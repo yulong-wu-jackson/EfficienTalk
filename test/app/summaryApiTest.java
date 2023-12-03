@@ -1,19 +1,8 @@
 package app;
 import app.help.SummaryApi;
-import data_access.FileSaveDataAccessObject;
-import interface_adapter.save.SaveController;
-import interface_adapter.save.SavePresenter;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-import use_case.save.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-public class summaryTest {
+public class summaryApiTest {
     @Test
     public void testSummarayApi() {
         try {
