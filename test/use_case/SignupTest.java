@@ -2,8 +2,6 @@ package use_case;
 
 import data_access.FileUserDataAccessObject;
 import entity.CommonUserFactory;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import use_case.signup.SignupInputData;
@@ -12,18 +10,16 @@ import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupOutputBoundary;
 import use_case.signup.SignupUserDataAccessInterface;
 import use_case.signup.SignupInteractor;
-import entity.CommonUserFactory;
 import entity.User;
 import entity.UserFactory;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 import static java.lang.Thread.sleep;
 import static org.junit.jupiter.api.Assertions.*;
 
-class SignupInteractorTest {
+class SignupTest {
     private SignupUserDataAccessInterface userRepository;
     @BeforeEach
     public void setUp() throws IOException, InterruptedException {
@@ -50,6 +46,71 @@ class SignupInteractorTest {
             @Override
             public void prepareFailView(String error) {
                 fail("Use case failure is unexpected.");
+            }
+        };
+
+        SignupInputBoundary interactor = new SignupInteractor(userRepository, successPresenter, new CommonUserFactory());
+        interactor.execute(inputData);
+    }
+    @Test
+    void FailLoginEmptyUsernameTest() throws IOException {
+        userRepository.delete();
+        SignupInputData inputData = new SignupInputData("", "12", "12","pangtl@126.com");
+
+        // This creates a successPresenter that tests whether the test case is as we expect.
+        SignupOutputBoundary successPresenter = new SignupOutputBoundary() {
+            @Override
+            public void prepareSuccessView(SignupOutputData user) {
+                fail("Use case success is unexpected.");
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                assertEquals("Username cannot be empty.", error);
+            }
+        };
+
+        SignupInputBoundary interactor = new SignupInteractor(userRepository, successPresenter, new CommonUserFactory());
+        interactor.execute(inputData);
+    }
+
+    @Test
+    void FailLoginEmptyPasswordTest() throws IOException {
+        userRepository.delete();
+        SignupInputData inputData = new SignupInputData("George", "", "","pangtl@126.com");
+
+        // This creates a successPresenter that tests whether the test case is as we expect.
+        SignupOutputBoundary successPresenter = new SignupOutputBoundary() {
+            @Override
+            public void prepareSuccessView(SignupOutputData user) {
+                fail("Use case success is unexpected.");
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                assertEquals("Password cannot be empty.", error);
+            }
+        };
+
+        SignupInputBoundary interactor = new SignupInteractor(userRepository, successPresenter, new CommonUserFactory());
+        interactor.execute(inputData);
+    }
+
+    @Test
+    void FailLoginEmptyEmailTest() throws IOException {
+        userRepository.delete();
+        SignupInputData inputData = new SignupInputData("George", "12", "12","");
+
+        // This creates a successPresenter that tests whether the test case is as we expect.
+        SignupOutputBoundary successPresenter = new SignupOutputBoundary() {
+            @Override
+            public void prepareSuccessView(SignupOutputData user) {
+                fail("Use case success is unexpected.");
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                assertEquals("Email cannot be empty.", error);
             }
         };
 
