@@ -6,11 +6,9 @@ import entity.UserFactory;
 import use_case.clear_users.ClearUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
-import use_case.summary.SummaryUserDataAccessInterface;
 import use_case.notify.NotifyUserDataAccessInterface;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -115,15 +113,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         this.save();
     }
 
-    @Override
-    public ArrayList<String> getUserEmails() {
-        ArrayList<String> useremails = new ArrayList<>();
-        for (User user : accounts.values()) {
-            useremails.add(user.getEmail());
-        }
-        return useremails;
-    }
-
     public ArrayList<String> getUsernames() {
         ArrayList<String> usernames = new ArrayList<>();
         for (User user : accounts.values()) {
@@ -139,17 +128,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             userEmail.put(user.getEmail(), user.getName());
         }
         return userEmail;
-    }
-
-
-
-    public static void saveStringToFile(String content, String filePath) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(content);
-        } catch (IOException e) {
-            System.err.println("An error occurred while saving the file.");
-            e.printStackTrace();
-        }
     }
 
 

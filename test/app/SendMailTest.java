@@ -8,6 +8,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.junit.Test;
+import app.help.javax.mail.SendMailHelper;
+import app.help.javax.mail.SendMail;
 
 public class SendMailTest {
     @Test
@@ -40,12 +42,16 @@ public class SendMailTest {
 
             // Send the message
             Transport.send(message, "DeclanPang@126.com", "HLPKWQXIIJLOJFLQ"); // Your email and password
-            assert(1 == 1);
         } catch (MessagingException mex) {
             mex.printStackTrace();
         }
 
 
+    }
+    @Test
+    public void test2() {
+        SendMailHelper.main(null);
+        SendMail.main(null);
     }
 
 

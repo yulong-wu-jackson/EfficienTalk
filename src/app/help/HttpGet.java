@@ -32,6 +32,7 @@ class HttpGet {
             sslcontext.init(null, new TrustManager[] { myX509TrustManager }, null);
 
             String sendUrl = getUrlWithQueryString(host, params);
+            System.out.println("URL:" + sendUrl);
 
             // System.out.println("URL:" + sendUrl);
 
