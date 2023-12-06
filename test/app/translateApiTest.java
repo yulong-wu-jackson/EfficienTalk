@@ -2,6 +2,7 @@ package app;
 
 import app.help.TransApi;
 import org.junit.Test;
+import app.help.translate_example;
 
 public class translateApiTest {
     @Test
@@ -30,5 +31,10 @@ public class translateApiTest {
             startIndex = endIndex;
         }
         assert(result.equals("hello\n"));
+    }
+
+    @Test
+    public void test2(){
+        translate_example.main(null);
     }
 }
