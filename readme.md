@@ -1,98 +1,95 @@
-# **Problem domain**
 
-As a team, we are basically working on the problem domain of the group chatting App. To be more specific, it’s an app
-that specializes in collaborative work and communication tools
-, whose functions include project management, team collaboration,
-communication optimization, etc. Our focus is to utilize
-different kinds of APIs, including but not limited to  Baidu
-translation API, and JavaMail API,to combine multiple group working
-assisting tools within a single app, which helps maximize the working
-efficiency of teams in various areas. Furthermore, we are trying to
-create some accessibility options designed to support users with
-intellectual disabilities. The actual implementation of our project
-is going to help us dig deep into ways of writing various codes to
-interact with multiple APIs, in order to accomplish different tasks,
-and it’s a concrete example of Clean Architecture.
+## What is EfficienTalk?
 
 
-# **Description of our Application**
+EfficienTalk is an all-in-one collaboration tool that specializes in enhancing team efficiency through a multitude of features such as chatting, data storage, real-time translation, and more. It's designed to be accessible, catering to users with intellectual disabilities.
 
-<h3>Project Description:</h3>
+## Key Features
 
-Our team plans to develop an online collaboration application for
-efficient and productive working purposes with following
-functions(temporary):
+- **Real-Time Chatting**: Communicate instantly with your team members.
+- **Persistent Data Storage**: Automatically stores chat histories for future reference.
+- **Language Translation**: Break language barriers with real-time translation.
+- ...
 
+## Use Cases
 
--   **Chatting**: Users can chat with their friends online.
+### clear_users
+Clears all user data from the local storage.
 
+### connect
+Establishes a connection with the server for real-time communication.
 
+### login
+Allows a user to log in to their account using their credentials.
 
+### logout
+Enables a user to securely log out of the application.
 
--   **Data storage**: After each conversation, our application will save the
-    data automatically and then store it into local memory.
+### notify
+Sends notifications to users, which can also be sent as email reminders.
 
+### save
+Stores conversations, files, or summaries locally or in the cloud.
 
+### send_message
+Facilitates sending messages between users or groups.
 
+### signup
+Registers a new user to the application with necessary details.
 
--   **Translating**: Our application can translate between different
-    languages.
+### summary
+Generates a concise summary of a conversation or meeting.
 
+### switchtologin
+Navigates the user to the login interface from other screens within the app.
 
+### switchtosignup
+Navigates the user to the signup interface from other screens within the app.
 
+### translate
+Utilizes the Baidu translation API to translate text between various languages.
 
--   **Change voice into text**(if applicable) : If our team can achieve the
-    voice input functionality, then we are aiming that our application
-    is able to change it into text.
-
-
-
-
--   **Summarization**: When one conversation or online meeting is finished,
-    our application can summarize the content and then record it in
-    local memory.
-
-
-
-
--   **Interactive job lists**: Users can easily distribute marked todo jobs
-    with interactive functions to individuals or groups.
-
-
-
-
--   **Notification function**: Group leaders or managers may publish
-    notifications to chat rooms with email reminders.
+## Installing
+### A note on dependencies
+EfficienTalk requires Java 17 to run
+### Set up
+Clone this Github repository: https://github.com/yulong-wu-jackson/EfficienTalk.git
+Open an IDE that you are familiar with. Below, we use screenshots from IntelliJ IDEA as an example.
+Select File->New->Project from version control
+![](im/1.png)
+Paste the repository URL and select “clone”
+![](im/2.png)
+In the pop-up window, select Trust Project -> Open in new window
+![](im/3.png)
 
 
 
 
--   **Accessibility options**: We offer functions like picture-to-text,
-    picture description, text-to-speech and color blind mode to
-    support workers with intellectual disabilities.
+## Usage
+
+
+Firstly, run Server.java under the directory Server\src\app  
+![](im/3.png)
+After you run Server.java successfully, run ClientApp.java under the directory src\app. Note: this src directory is different from the above src directory.
+![](im/4.png)
+In the pop-up window, enter a valid IP address and enter the port 8088.For example, if you are using window, click Window Key+R, enter cmd, type ipconfig, copy and paste the ipv4 address shown.
+![](im/5.png)
+In the Sign up window, choose your username and password, enter a valid email address, then press Sign up.
+![](im/6.png)
+After signing up, you have an account stored in our database! You will be switched to the login window, where you can enter your username and password, and a random group number(we haven’t fully developed our group function yet) to log in.     
+![](im/7.png)
+After logging in, you will see a chatroom window. Notice the few buttons here.
+The “send” button sends your message to the chat room so that other users logged in to this chat room can see the message.
+The “Notify” button is responsible for sending your message to the email addresses of all user accounts stored in our database (given that the email address is valid).
+The “Summary” button uses high-level AI to write a summary paragraph of all the messages sent by different users in the chat room.
+The “Save” button saves the dialogues in this chat room to a separate text file.
+The “Translate” checkbox above translates the content in the chatroom into Chinese.
+![](im/8.png)
 
 
 
 
--   **Polling function**: Leaders or members may enable anonymous polls to
-    gain authentic voting results.
+## Contact
+tianlei.pang@mail.utoronto.ca
 
 
-
-
--   **Files sharing**: Files can be submitted to sharing cloud space so that
-    telecommuting has become more convenient.
-
-
-## Link to the documentation for an API:
-
-https://api.fanyi.baidu.com/doc/21
-
-## Screenshot of using a tool to try out the API:
-
-trying to translate “我在做软件设计课的作业” in Chinese into English “I am doing homework for software design class”, and it works
-
-![](207_930.png)
-
-## Example of Output
-![](207_930_2.png)
