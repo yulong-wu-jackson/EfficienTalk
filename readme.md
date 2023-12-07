@@ -68,7 +68,7 @@ In the pop-up window, select Trust Project -> Open in new window
 ## Usage
 
 
-Firstly, run Server.java under the directory Server\src\app
+Firstly, run Server.java under the directory Server\src\app  
 ![](im/3.png)
 After you run Server.java successfully, run ClientApp.java under the directory src\app. Note: this src directory is different from the above src directory.
 ![](im/4.png)
@@ -76,7 +76,7 @@ In the pop-up window, enter a valid IP address and enter the port 8088.For examp
 ![](im/5.png)
 In the Sign up window, choose your username and password, enter a valid email address, then press Sign up.
 ![](im/6.png)
-After signing up, you have an account stored in our database! You will be switched to the login window, where you can enter your username and password, and a random group number(we haven’t fully developed our group function yet) to log in.
+After signing up, you have an account stored in our database! You will be switched to the login window, where you can enter your username and password, and a random group number(we haven’t fully developed our group function yet) to log in.     
 ![](im/7.png)
 After logging in, you will see a chatroom window. Notice the few buttons here.
 The “send” button sends your message to the chat room so that other users logged in to this chat room can see the message.
