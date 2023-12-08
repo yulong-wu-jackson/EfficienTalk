@@ -1,32 +1,42 @@
 package use_case.save;
 
-import app.help.OpenAISummaryAPI;
-import use_case.summary.SummaryInputData;
-import use_case.summary.SummaryOutputBoundary;
-import use_case.summary.SummaryUserDataAccessInterface;
-
-public class SaveInteractor implements SaveInputBoundary{
+/**
+ * SaveInteractor handles the business logic for saving data.
+ * It interacts with data access objects to save messages and communicates with the presenter
+ * to display the outcome of the save operation.
+ */
+public class SaveInteractor implements SaveInputBoundary {
     final SaveUserDataAccessInterface userDataAccessObject;
     final SaveOutputBoundary userPresenter;
 
+    /**
+     * Constructs a SaveInteractor with specified data access and output boundary interfaces.
+     *
+     * @param saveUserDataAccessInterface The data access object for saving data.
+     * @param saveOutputBoundary The output boundary to interact with the presenter.
+     */
     public SaveInteractor(SaveUserDataAccessInterface saveUserDataAccessInterface,
-                             SaveOutputBoundary saveOutputBoundary) {
+                          SaveOutputBoundary saveOutputBoundary) {
         this.userDataAccessObject = saveUserDataAccessInterface;
         this.userPresenter = saveOutputBoundary;
     }
 
+    /**
+     * Executes the save operation based on the provided input data.
+     * It will save the message if valid, or report an error if the message is not suitable for saving.
+     *
+     * @param saveInputData The data containing the message to be saved.
+     */
     @Override
-    public void saveMessage(String summary) {
-        userDataAccessObject.saveMessage(summary);
-        userPresenter.prepareSuccessView(summary);
-    }
+    public void execute(SaveInputData saveInputData) {
+        if(saveInputData.getSavedMessage().equals("Welcome to the chat room!\n")) {
+            userPresenter.prepareFailView("Error: The chat room is empty! There are no messages inside.");
+        } else {
+            String message = saveInputData.getSavedMessage();
+            userDataAccessObject.saveMessage(message);
 
-    @Override
-    public String getMessage(SaveInputData saveInputData) {
-        String groupMessage = saveInputData.getGroupMessage();
-        StringBuilder builder = new StringBuilder(groupMessage);
-        builder.delete(0,26);
-        String modifiedGroupMessage = builder.toString();
-        return(modifiedGroupMessage);
+            SaveOutputData saveOutputData = new SaveOutputData("Dialogues have been saved successfully!");
+            userPresenter.prepareSuccessView(saveOutputData);
+        }
     }
 }

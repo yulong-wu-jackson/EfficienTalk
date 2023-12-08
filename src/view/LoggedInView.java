@@ -56,8 +56,19 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     static Socket socket = null;
 
     /**
-     * A window with a title and a JButton.
+     * Constructs a LoggedInView with necessary controllers and view models.
+     * It initializes all the UI components and sets up action listeners for user interactions.
+     *
+     * @param loggedInViewModel The view model for logged-in state.
+     * @param notifyViewModel The view model for notification state.
+     * @param logoutController The controller for handling logout.
+     * @param sendMessageController The controller for handling message sending.
+     * @param translateController The controller for handling translation.
+     * @param notifyController The controller for handling notifications.
+     * @param summaryController The controller for handling summaries.
+     * @param saveController The controller for handling saving of chat.
      */
+
     public LoggedInView(LoggedInViewModel loggedInViewModel, NotifyViewModel notifyViewModel, LogoutController logoutController,
                         SendMessageController sendMessageController, 
                         TranslateController translateController, NotifyController notifyController, 
@@ -221,8 +232,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(save)) {
                             String groupMessage = textArea.getText();
-                            String savedMessage = saveController.getMessage(groupMessage);
-                            saveController.saveMessage(savedMessage);
+                            saveController.execute(groupMessage);
                         }
                     }
                 }

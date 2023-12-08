@@ -22,7 +22,10 @@ public class FileSaveDataAccessObject implements SaveUserDataAccessInterface {
 
     @Override
     public void saveMessage(String savedMessage) {
-        String formattedMessage = formatMessageWithLineBreaks(savedMessage, 110);
+        StringBuilder builder = new StringBuilder(savedMessage);
+        builder.delete(0,26);
+        String modifiedGroupMessage = builder.toString();
+        String formattedMessage = formatMessageWithLineBreaks(modifiedGroupMessage, 110);
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
         String filePath = "savedMessage_" + timestamp + ".txt";
 
