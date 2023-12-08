@@ -1,6 +1,8 @@
 package use_case.summary;
 
 public interface SummaryOutputBoundary {
-    void prepareSuccessView(String summaryOutputData);
+    void prepareSuccessView(SummaryOutputData summary);
+
+    void prepareFailView(String error);
 
 }

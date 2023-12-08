@@ -209,9 +209,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(summary)) {
                             String groupMessage = textArea.getText();
-                            String summary = summaryController.getSummary(groupMessage);
-                            summaryController.saveSummary(summary);
-                            //JOptionPane.showMessageDialog(self, summary);
+                            summaryController.execute(groupMessage);
                         }
                     }
                 }
@@ -225,7 +223,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                             String groupMessage = textArea.getText();
                             String savedMessage = saveController.getMessage(groupMessage);
                             saveController.saveMessage(savedMessage);
-                            //JOptionPane.showMessageDialog(self, "Dialogues have been saved!");
                         }
                     }
                 }

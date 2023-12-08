@@ -1,6 +1,7 @@
 package use_case.summary;
 
+import use_case.signup.SignupInputData;
+
 public interface SummaryInputBoundary {
-    void saveSummary(String summary);
-    String getSummary(SummaryInputData summaryInputData) throws Exception;
+    void execute(SummaryInputData groupMessage);
 }
