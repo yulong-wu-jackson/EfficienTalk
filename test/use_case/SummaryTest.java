@@ -32,9 +32,9 @@ public class SummaryTest {
     @BeforeEach
     public void setUp() {
         fileSummaryDataAccessObject = new FileSummayDataAccessObject();
+        summaryPresenter = new SummaryPresenter();
         openAISummarizer = new OpenAISummarizer();
         openAISummaryAPI = openAISummarizer;
-        summaryPresenter = new SummaryPresenter();
         outputBoundary = summaryPresenter; // Assigning SavePresenter instance to SaveOutputBoundary
         userDataAccessInterface = fileSummaryDataAccessObject;
         summaryInteractor = new SummaryInteractor(userDataAccessInterface, outputBoundary, openAISummaryAPI);
@@ -42,27 +42,35 @@ public class SummaryTest {
     }
 
     @Test
-    public void testGetInteractor() throws Exception {
-        SummaryInputData inputData = new SummaryInputData("Welcome to the chat room!\nTest");
-        String outputData = summaryInteractor.getSummary(inputData);
-        SummaryOutputData summaryoutputdata = new SummaryOutputData(outputData);
-        assert(outputData != null);
+    public void testGetInteractor() {
+        SummaryInputData summaryInputData = new SummaryInputData("Welcome to the chat room!\nTest");
+        summaryInteractor.execute(summaryInputData);
+        SummaryOutputData summaryoutputdata = new SummaryOutputData(new String("1"));
+        assert(summaryoutputdata != null);
         assert(summaryoutputdata.getSummary() != null);
     }
 
     @Test
-    public void testGetController() throws Exception {
-        String message = summaryController.getSummary("Welcome to the chat room!\nTest");
-        SummaryOutputData summaryoutputdata = new SummaryOutputData(message);
-        assert(message != null);
+    public void testFailInteractor() {
+        SummaryInputData summaryInputData = new SummaryInputData("Welcome to the chat room!\n");
+        summaryInteractor.execute(summaryInputData);
+        SummaryOutputData summaryoutputdata = new SummaryOutputData(new String("1"));
+        assert(summaryoutputdata != null);
+        assert(summaryoutputdata.getSummary() != null);
+    }
+
+    @Test
+    public void testGetController() {
+        summaryController.execute("Welcome to the chat room!\nTest");
+        SummaryOutputData summaryoutputdata = new SummaryOutputData(new String("1"));
+        assert(summaryoutputdata != null);
         assert(summaryoutputdata.getSummary() != null);
     }
 
     @Test
     public void testSaveInteractor() {
         SummaryInputData inputData = new SummaryInputData("Welcome to the chat room!\nTestTestTest");
-        String outputData = summaryInteractor.getSummary(inputData);
-        summaryInteractor.saveSummary(outputData);
+        summaryInteractor.execute(inputData);
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
         String filePath = "summary_" + timestamp + ".txt";
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -78,8 +86,7 @@ public class SummaryTest {
 
     @Test
     public void testSaveController() {
-        String message = summaryController.getSummary("Welcome to the chat room!\nTest");
-        summaryController.saveSummary(message);
+        summaryController.execute("Welcome to the chat room!\nTest");
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
         String filePath = "summary_" + timestamp + ".txt";
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {

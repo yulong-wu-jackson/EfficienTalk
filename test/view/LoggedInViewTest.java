@@ -77,13 +77,8 @@ public class LoggedInViewTest {
         });
         SummaryController summaryController = new SummaryController(new SummaryInputBoundary() {
             @Override
-            public void saveSummary(String summary) {
+            public void execute(SummaryInputData summaryInputData) {
 
-            }
-
-            @Override
-            public String getSummary(SummaryInputData summaryInputData) throws Exception {
-                return null;
             }
         });
         SaveController saveController = new SaveController(new SaveInputBoundary() {
