@@ -83,13 +83,8 @@ public class LoggedInViewTest {
         });
         SaveController saveController = new SaveController(new SaveInputBoundary() {
             @Override
-            public void saveMessage(String savedMessage) {
+            public void execute(SaveInputData saveInputData){
 
-            }
-
-            @Override
-            public String getMessage(SaveInputData saveInputData) throws Exception {
-                return null;
             }
         });
 

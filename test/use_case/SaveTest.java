@@ -36,27 +36,32 @@ public class SaveTest {
     }
 
     @Test
-    public void testGetInteractor() throws Exception {
+    public void testGetInteractor() {
         SaveInputData inputData = new SaveInputData("Welcome to the chat room!\nTest");
-        String outputData = saveInteractor.getMessage(inputData);
-        SaveOutputData saveoutputdata = new SaveOutputData(outputData);
-        assert(outputData.equals("Test"));
+        saveInteractor.execute(inputData);
+        SaveOutputData saveoutputdata = new SaveOutputData("Test");
+        assert(inputData.getSavedMessage().equals("Welcome to the chat room!\nTest"));
         assert(saveoutputdata.getMessage().equals("Test"));
     }
 
     @Test
-    public void testGetController() throws Exception {
-        String message = saveController.getMessage("Welcome to the chat room!\nTest");
-        SaveOutputData saveoutputdata = new SaveOutputData(message);
-        assert(message.equals("Test"));
+    public void testGetController() {
+        saveController.execute("Welcome to the chat room!\nTest");
+        SaveOutputData saveoutputdata = new SaveOutputData("Test");
+        assert(saveoutputdata.getMessage().equals("Test"));
+    }
+
+    @Test
+    public void testFailController() {
+        saveController.execute("Welcome to the chat room!\n");
+        SaveOutputData saveoutputdata = new SaveOutputData("Test");
         assert(saveoutputdata.getMessage().equals("Test"));
     }
 
     @Test
     public void testSaveInteractor() {
         SaveInputData inputData = new SaveInputData("Welcome to the chat room!\nTest");
-        String outputData = saveInteractor.getMessage(inputData);
-        saveInteractor.saveMessage(outputData);
+        saveInteractor.execute(inputData);
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
         String filePath = "savedMessage_" + timestamp + ".txt";
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -72,8 +77,7 @@ public class SaveTest {
 
     @Test
     public void testSaveController() {
-        String message = saveController.getMessage("Welcome to the chat room!\nTest");
-        saveController.saveMessage(message);
+        saveController.execute("Welcome to the chat room!\nTest");
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
         String filePath = "savedMessage_" + timestamp + ".txt";
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {

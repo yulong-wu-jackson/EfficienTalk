@@ -1,11 +1,11 @@
 package use_case.save;
 
 public class SaveInputData {
-    final private String groupMessage;
-    public SaveInputData(String groupMessage) {
-        this.groupMessage = groupMessage;
+    final private String savedMessage;
+    public SaveInputData(String savedMessage) {
+        this.savedMessage = savedMessage;
     }
 
-    public String getGroupMessage() {return groupMessage;}
+    public String getSavedMessage() {return savedMessage;}
 
 }
